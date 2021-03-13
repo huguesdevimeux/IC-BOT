@@ -41,7 +41,7 @@ class Messages:
     CONTRIBUTING_MESSAGE_FOOTER = (
         "J'appartiens à toute la promo. Les contributions sont la bienvenue !"
     )
-    CONTRIBUTING_MESSAGE = "**Tu veux ajouter une fonctionnalité et devenir _cool_ ? C'est [ici](https://stackoverflow.com/questions/27844088/python-get-directory-two-levels-up)**"
+    CONTRIBUTING_MESSAGE = "**Tu veux ajouter une fonctionnalité et devenir _cool_ ? C'est [ici](https://github.com/huguesdevimeux/IC-BOT)**"
 
 
 @dataclass
