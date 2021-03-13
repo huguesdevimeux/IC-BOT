@@ -1,5 +1,12 @@
+from typing import Union
+import typing
 import discord
+from discord.channel import GroupChannel
+from discord.embeds import Embed
+from discord.enums import ChannelType
 from discord.message import Message
+
+from ICBOT.commands.BotResponse import BotResponse
 
 from .commands.command_manager import CommandManager
 from .commands.exceptions import AbstractICBOTException
@@ -21,8 +28,14 @@ class ICBOT(discord.Client):
         args = content.split(" ")
         if args.pop(0) == Constants.PREFIX:
             try:
-                resp = CommandManager.parse_command(args)
+                resp = CommandManager.parse_command(args, message)
             except AbstractICBOTException as e:
                 resp = e
-            await message.channel.send(embed=resp.to_embed())
+            await self._handle_send(message.channel, resp.to_message())
             logger.info(f"Sent message {resp}")
+            
+    async def _handle_send(self, channel: GroupChannel, message: typing.Union[Embed, str]) -> None:
+        if isinstance(message, Embed): 
+            await channel.send(embed=message)
+        elif isinstance(message, str):
+            await channel.send(message)

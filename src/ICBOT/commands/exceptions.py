@@ -11,7 +11,7 @@ class AbstractICBOTException(Exception, BotResponse):
         self.message = message
         super().__init__()
 
-    def to_embed(self):
+    def to_message(self):
         return ErrorMessage(self.message, show_doc=True)
 
 

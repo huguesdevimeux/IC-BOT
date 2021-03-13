@@ -11,7 +11,7 @@ from .BotResponse import BotResponse
 
 
 class Help(BotResponse):
-    def to_embed(self) -> discord.Embed:
+    def to_message(self) -> discord.Embed:
         resp = StandardMessage("AIDE :", content="", show_doc=False)
         for command in Commands.ALL():
             resp.add_field(name=command.name, value=command.help_message)
@@ -24,7 +24,7 @@ class Help(BotResponse):
 
 
 class Delegates(BotResponse):
-    def to_embed(self) -> None:
+    def to_message(self) -> None:
         return (
             StandardMessage("Délégués :", content=Messages.DELEGATES, show_doc=False)
             .add_field(name="IN", value=Messages.DELEGATES_IN)
@@ -40,7 +40,7 @@ class Moodle(BotResponse):
         self.chosen_cours_name = chosen_cours_name
         self.chosen_course_url = chosen_course_url
 
-    def to_embed(self) -> discord.Embed:
+    def to_message(self) -> discord.Embed:
         if self.chosen_course_url != None:
             return StandardMessage(title="Lien Moodle :", content=" ").add_field(
                 name=self.chosen_cours_name.upper(), value=self.chosen_course_url
@@ -63,7 +63,7 @@ class Moodle(BotResponse):
 
 class Drive(BotResponse):
     # TODO, drive features.
-    def to_embed(self) -> discord.Embed:
+    def to_message(self) -> discord.Embed:
         return StandardMessage(
             title="Drive :",
             content=Messages.DRIVE_MESSAGE

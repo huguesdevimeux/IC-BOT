@@ -2,13 +2,14 @@ from abc import ABC, abstractclassmethod, abstractmethod
 import typing
 
 import discord
+from discord.message import Message
 
 
 class BotResponse(ABC):
     """Abstract class for all the bot responses."""
 
     @abstractmethod
-    def to_embed(self) -> discord.Embed:
+    def to_message(self) -> discord.Embed:
         """Returns the embed message that will be sent.
 
         Returns
@@ -19,7 +20,7 @@ class BotResponse(ABC):
         pass
 
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str] = None) -> "BotResponse":
+    def build_with_args(cls, args: typing.Iterable[str] = None, original_message :Message = None) -> "BotResponse":
         """Build the bot response given the argument.
 
         Parameters
@@ -27,5 +28,7 @@ class BotResponse(ABC):
         args : typing.Iterable[str]
             The arguments the user passed (i.e, every word after the command invocation).
             WARNING : args does not contains the command !
+        original_message : Message
+            The message the request comes from.
         """
         return cls()
