@@ -82,6 +82,11 @@ class Commands:
         "drive",
         "pour chercher un document dans le drive de section (Bientôt ..)",
     )
+    RANDOMPANDA = _Command(
+        "Panda aléatoire", 
+        "pandalea", 
+        "pour avoir un émoji panda aléatoire",
+    )
 
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:

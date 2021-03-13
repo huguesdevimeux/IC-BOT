@@ -1,9 +1,12 @@
-from ICBOT.commands.exceptions import InvalidArgument, NoArgument
+import random
+import typing
 from abc import ABC, abstractclassmethod, abstractmethod
 from typing import overload
-import typing
 
 import discord
+from discord import emoji
+from discord.emoji import Emoji
+from ICBOT.commands.exceptions import InvalidArgument, NoArgument
 from ICBOT.commands.templates import StandardMessage
 
 from ..constants import Commands, Constants, ErrorMessages, Messages
@@ -70,10 +73,13 @@ class Drive(BotResponse):
             + "\n\n la fonction recherche arrivera un jour ..",
         )
 
-class RandomPanda(BotResponse): 
+class RandomPanda(BotResponse):
+    def __init__(self, emoji: Emoji) -> None: 
+        self.emoji = emoji
+        
     def to_message(self) -> discord.Embed:
-        return super().to_message()
+        return str(self.emoji)
     
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str]) -> "BotResponse":
-        return super().build_with_args(args=args)
+    def build_with_args(cls, args: typing.Iterable[str], message: discord.Message) -> "BotResponse":
+        return cls(random.choice(list(filter(lambda e: e.name.startswith("panda"), message.guild.emojis))))

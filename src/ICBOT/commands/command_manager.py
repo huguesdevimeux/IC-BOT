@@ -3,7 +3,7 @@ import typing
 from discord import message
 
 from ..constants import Commands, Constants, ErrorMessages
-from .commands import Drive, Help, Delegates, Moodle
+from .commands import Drive, Help, Delegates, Moodle, RandomPanda
 from .BotResponse import BotResponse
 from .exceptions import InvalidCommandName, NoArgument, NoCommand
 
@@ -24,6 +24,7 @@ class CommandManager:
         Commands.DELEGATES.call_name: Delegates,
         Commands.MOODLE.call_name: Moodle,
         Commands.DRIVE.call_name: Drive,
+        Commands.RANDOMPANDA.call_name : RandomPanda,
     }
 
     @classmethod
