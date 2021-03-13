@@ -15,8 +15,7 @@ __all__ = [
     "DELEGATES_IN",
 ]
 
-_config = dotenv_values(Path(__file__).parents[1] / ".env.shared")
-
+_config = dotenv_values(Path(__file__).parents[2] / ".env.shared")
 
 def _load_value(name: str) -> str:
     try:
