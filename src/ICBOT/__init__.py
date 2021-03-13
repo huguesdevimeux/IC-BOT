@@ -1,1 +1,1 @@
-from ._icbot import ICBOT
+from .icbot import ICBOT
