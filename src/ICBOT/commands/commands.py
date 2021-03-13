@@ -52,7 +52,7 @@ class Moodle(BotResponse):
             return r
 
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str]) -> "BotResponse":
+    def build_with_args(cls, args: typing.Iterable[str], *argments) -> "BotResponse":
         if len(args) == 0:
             return cls()
         arg = args[0].lower()
@@ -69,3 +69,11 @@ class Drive(BotResponse):
             content=Messages.DRIVE_MESSAGE
             + "\n\n la fonction recherche arrivera un jour ..",
         )
+
+class RandomPanda(BotResponse): 
+    def to_message(self) -> discord.Embed:
+        return super().to_message()
+    
+    @classmethod
+    def build_with_args(cls, args: typing.Iterable[str]) -> "BotResponse":
+        return super().build_with_args(args=args)
