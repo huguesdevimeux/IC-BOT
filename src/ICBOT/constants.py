@@ -22,6 +22,7 @@ class Constants:
     MAX_AMOUNT_PANDAS = 50
     TESTING = False
 
+
 class ErrorMessages:
     COMMAND_NOT_FOUND = "`{}` n'est pas une commande enregistrée."
     NO_COMMAND = "Vous m'avez appelé sans commande !"
@@ -43,6 +44,9 @@ class Messages:
         "J'appartiens à toute la promo. Les contributions sont la bienvenue !"
     )
     CONTRIBUTING_MESSAGE = "**Tu veux ajouter une fonctionnalité et devenir _cool_ ? C'est [ici](https://github.com/huguesdevimeux/IC-BOT)**"
+    BONSOIR_NON = """**
+    \uD83D\uDCF6SFR 4G                       \uD83C\uDF19\uD83D\uDD1256%\uD83D\uDD0B\n\n                      21:40\n              Samedi 17 mars\n\n\uD83D\uDCAC  MESSAGES                maintenant\nOumar Coach\n\nBonsoir non
+    **"""
 
 
 @dataclass
@@ -88,7 +92,9 @@ class Commands:
         "pandalea",
         "pour avoir un émoji panda aléatoire",
     )
-    RANDOMCOPIEPATE = _Command("Copie pate aléatoire", "copiepate", "pour avoir un copie pate aléatoire.")
+    RANDOMCOPIEPATE = _Command(
+        "Copie pate aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
+    )
 
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:

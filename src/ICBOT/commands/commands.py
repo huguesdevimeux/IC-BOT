@@ -69,63 +69,75 @@ class Moodle(BotResponse):
 
 
 class Drive(BotResponse):
-    
     def __init__(self, files_names: typing.Iterable[typing.Tuple[str, int]]) -> None:
         self.files_names = files_names
-        
+
     # TODO, drive features.
     def to_message(self) -> discord.Embed:
         print(self.files_names)
         temp_path = self.files_names[0].replace("\n", "")[2:]
-        embed =  StandardMessage(
+        embed = StandardMessage(
             title="Drive :",
-            content= "Résultats : ```" +
-            "\n".join([f"{c}" for c in self.files_names])
-            + "```"
+            content="Résultats : ```"
+            + "\n".join([f"{c}" for c in self.files_names])
+            + "```",
         )
         file_ = discord.File(Path.joinpath(DRIVE_PATH, temp_path), filename=temp_path)
         return EmebedWithFile(file_, embed)
-        
+
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str], original_message: discord.Message) -> "BotResponse":
-        if len(args) == 0 : raise NoArgument(Commands.DRIVE.name)
+    def build_with_args(
+        cls, args: typing.Iterable[str], original_message: discord.Message
+    ) -> "BotResponse":
+        if len(args) == 0:
+            raise NoArgument(Commands.DRIVE.name)
         logger.info("Searching for " + " ".join(args))
         import difflib
-        return cls(difflib.get_close_matches("".join(args), ALL_FILES_DRIVE, cutoff=0.1))
-        
-        
+
+        return cls(
+            difflib.get_close_matches("".join(args), ALL_FILES_DRIVE, cutoff=0.1)
+        )
+
+
 class RandomPanda(BotResponse):
-    def __init__(self, emojis: typing.Iterable[Emoji]) -> None: 
+    def __init__(self, emojis: typing.Iterable[Emoji]) -> None:
         self.emojis = emojis
-        
+
     def to_message(self) -> discord.Embed:
         return " ".join([str(e) for e in self.emojis])
-    
+
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str], message: discord.Message) -> "BotResponse":
+    def build_with_args(
+        cls, args: typing.Iterable[str], message: discord.Message
+    ) -> "BotResponse":
         amount_of_pandas = 1
-        if len(args) > 0 :
-            try: 
+        if len(args) > 0:
+            try:
                 amount_of_pandas = int(args[0])
-            except ValueError: 
+            except ValueError:
                 pass
         amount_of_pandas = min(max(1, amount_of_pandas), Constants.MAX_AMOUNT_PANDAS)
-        pandas = list(filter(lambda e: e.name.startswith("panda"), message.guild.emojis))
+        pandas = list(
+            filter(lambda e: e.name.startswith("panda"), message.guild.emojis)
+        )
         pandas_resp = []
-        for i in range(amount_of_pandas): 
+        for i in range(amount_of_pandas):
             pandas_resp.append(random.choice(pandas))
         return cls(pandas_resp)
-    
-class RandomCopiePate(BotResponse): 
-    def __init__(self, copiepate: str, submitter: str): 
+
+
+class RandomCopiePate(BotResponse):
+    def __init__(self, copiepate: str, submitter: str):
         self.copiepate = copiepate
         self.submitter = submitter
-    
-    def to_message(self) -> discord.Embed: 
+
+    def to_message(self) -> discord.Embed:
         resp = f"**{self.copiepate}** \n\n_Soumis par_ <@{self.submitter}>"
         return StandardMessage(content=resp, show_doc=False)
 
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str], original_message: discord.Message) -> "BotResponse":
+    def build_with_args(
+        cls, args: typing.Iterable[str], original_message: discord.Message
+    ) -> "BotResponse":
         copie_pate = random.choice(COPIE_PATES)
         return cls(copie_pate["content"], copie_pate["author"]["id"])

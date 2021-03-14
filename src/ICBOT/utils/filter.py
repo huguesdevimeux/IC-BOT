@@ -7,7 +7,7 @@ from ..constants import Constants
 
 def filter_message(func):
     async def wrapper(self, message: Message):
-        if (Constants.TESTING and str(message.guild.id) == ID_SERVER): 
+        if Constants.TESTING and str(message.guild.id) == ID_SERVER:
             return
         if not (
             message.author == self.user

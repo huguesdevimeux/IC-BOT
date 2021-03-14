@@ -27,7 +27,7 @@ class CommandManager:
         Commands.MOODLE.call_name: Moodle,
         Commands.DRIVE.call_name: Drive,
         Commands.RANDOMPANDA.call_name: RandomPanda,
-        Commands.RANDOMCOPIEPATE.call_name : RandomCopiePate,
+        Commands.RANDOMCOPIEPATE.call_name: RandomCopiePate,
     }
 
     @classmethod

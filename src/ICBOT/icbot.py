@@ -14,13 +14,13 @@ from .commands.exceptions import AbstractICBOTException
 from .utils.cleaner import clean_message
 from .utils.filter import filter_message
 from .utils.logging import logger
-from .constants import Constants
+from .constants import Constants, Messages
 
 
 class ICBOT(discord.Client):
     async def on_ready(self):
         logger.info("BOT IS READY")
-        for guild in self.guilds: 
+        for guild in self.guilds:
             logger.info(f"On {guild} (id {guild.id}")
 
     @filter_message
@@ -35,6 +35,8 @@ class ICBOT(discord.Client):
                 resp = e
             await self._handle_send(message.channel, resp.to_message())
             logger.info(f"Sent message {resp}")
+        elif self.user in message.mentions:
+            await message.channel.send(Messages.BONSOIR_NON)
 
     async def _handle_send(
         self, channel: GroupChannel, message: typing.Union[Embed, str]
@@ -43,5 +45,5 @@ class ICBOT(discord.Client):
             await channel.send(embed=message)
         elif isinstance(message, str):
             await channel.send(message)
-        elif isinstance(message, EmebedWithFile): 
-            await channel.send(embed=message.embed, file= message.file)
+        elif isinstance(message, EmebedWithFile):
+            await channel.send(embed=message.embed, file=message.file)

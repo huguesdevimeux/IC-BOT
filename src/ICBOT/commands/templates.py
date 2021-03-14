@@ -5,11 +5,13 @@ from ..constants import Commands, Constants, Messages
 import typing
 import discord
 
-class EmebedWithFile(): 
+
+class EmebedWithFile:
     def __init__(self, file_to_send: discord.File, embed: discord.Embed) -> None:
-        self.file = file_to_send 
+        self.file = file_to_send
         self.embed = embed
-        
+
+
 class AbstractMessage(discord.Embed, ABC):
     """Abstract class for all the embeded message ICBOT can send."""
 
