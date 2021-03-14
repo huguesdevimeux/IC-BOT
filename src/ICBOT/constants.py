@@ -20,7 +20,7 @@ class Constants:
         "analyse": _moodle_url.format(id=ANALYSE_ID),
     }
     MAX_AMOUNT_PANDAS = 50
-    TESTING = True
+    TESTING = False
 
 class ErrorMessages:
     COMMAND_NOT_FOUND = "`{}` n'est pas une commande enregistrée."
@@ -88,6 +88,7 @@ class Commands:
         "pandalea",
         "pour avoir un émoji panda aléatoire",
     )
+    RANDOMCOPIEPATE = _Command("Copie pate aléatoire", "copiepate", "pour avoir un copie pate aléatoire.")
 
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:

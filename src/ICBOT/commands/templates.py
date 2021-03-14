@@ -1,10 +1,15 @@
+from discord import embeds
 from discord.colour import Colour
 from abc import ABC
 from ..constants import Commands, Constants, Messages
 import typing
 import discord
 
-
+class EmebedWithFile(): 
+    def __init__(self, file_to_send: discord.File, embed: discord.Embed) -> None:
+        self.file = file_to_send 
+        self.embed = embed
+        
 class AbstractMessage(discord.Embed, ABC):
     """Abstract class for all the embeded message ICBOT can send."""
 
@@ -22,7 +27,7 @@ class AbstractMessage(discord.Embed, ABC):
 
 
 class StandardMessage(AbstractMessage):
-    def __init__(self, title, content="", show_doc=True) -> None:
+    def __init__(self, title=None, content="", show_doc=True) -> None:
         super().__init__(
             colour=Colour.blue(), title=title, description=content, show_doc=show_doc
         )

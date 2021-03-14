@@ -7,6 +7,7 @@ from discord.enums import ChannelType
 from discord.message import Message
 
 from ICBOT.commands.BotResponse import BotResponse
+from ICBOT.commands.templates import EmebedWithFile
 
 from .commands.command_manager import CommandManager
 from .commands.exceptions import AbstractICBOTException
@@ -42,3 +43,5 @@ class ICBOT(discord.Client):
             await channel.send(embed=message)
         elif isinstance(message, str):
             await channel.send(message)
+        elif isinstance(message, EmebedWithFile): 
+            await channel.send(embed=message.embed, file= message.file)
