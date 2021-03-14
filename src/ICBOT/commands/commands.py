@@ -6,8 +6,8 @@ from typing import overload
 import discord
 from discord import emoji
 from discord.emoji import Emoji
-from ICBOT.commands.exceptions import InvalidArgument, NoArgument
-from ICBOT.commands.templates import StandardMessage
+from .exceptions import InvalidArgument, NoArgument
+from .templates import StandardMessage
 
 from ..constants import Commands, Constants, ErrorMessages, Messages
 from .BotResponse import BotResponse

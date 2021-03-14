@@ -17,6 +17,7 @@ __all__ = [
 
 _config = dotenv_values(Path(__file__).parents[2] / ".env.shared")
 
+
 def _load_value(name: str) -> str:
     try:
         return _config[name]

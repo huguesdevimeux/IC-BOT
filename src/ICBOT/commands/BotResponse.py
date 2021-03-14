@@ -20,7 +20,9 @@ class BotResponse(ABC):
         pass
 
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str] = None, original_message :Message = None) -> "BotResponse":
+    def build_with_args(
+        cls, args: typing.Iterable[str] = None, original_message: Message = None
+    ) -> "BotResponse":
         """Build the bot response given the argument.
 
         Parameters
@@ -32,3 +34,6 @@ class BotResponse(ABC):
             The message the request comes from.
         """
         return cls()
+
+    def __str__(self) -> str:
+        return type(self)

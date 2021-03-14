@@ -33,9 +33,11 @@ class ICBOT(discord.Client):
                 resp = e
             await self._handle_send(message.channel, resp.to_message())
             logger.info(f"Sent message {resp}")
-            
-    async def _handle_send(self, channel: GroupChannel, message: typing.Union[Embed, str]) -> None:
-        if isinstance(message, Embed): 
+
+    async def _handle_send(
+        self, channel: GroupChannel, message: typing.Union[Embed, str]
+    ) -> None:
+        if isinstance(message, Embed):
             await channel.send(embed=message)
         elif isinstance(message, str):
             await channel.send(message)

@@ -24,7 +24,7 @@ class CommandManager:
         Commands.DELEGATES.call_name: Delegates,
         Commands.MOODLE.call_name: Moodle,
         Commands.DRIVE.call_name: Drive,
-        Commands.RANDOMPANDA.call_name : RandomPanda,
+        Commands.RANDOMPANDA.call_name: RandomPanda,
     }
 
     @classmethod
@@ -32,14 +32,16 @@ class CommandManager:
         return cls._MAP_COMMANDS[key]
 
     @classmethod
-    def parse_command(cls, args: typing.Iterable[str], message: message.Message) -> BotResponse:
+    def parse_command(
+        cls, args: typing.Iterable[str], message: message.Message
+    ) -> BotResponse:
         """Given the list of the argument passed after the prefix, returns the corresponding Command.
 
         Parameters
         ----------
         args : typing.Iterable[str]
             The arguments.
-        
+
         message : message.Message
             The discord message the command comes from.
 
