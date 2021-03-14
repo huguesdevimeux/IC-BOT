@@ -72,14 +72,24 @@ class Drive(BotResponse):
             content=Messages.DRIVE_MESSAGE
             + "\n\n la fonction recherche arrivera un jour ..",
         )
-
 class RandomPanda(BotResponse):
-    def __init__(self, emoji: Emoji) -> None: 
-        self.emoji = emoji
+    def __init__(self, emojis: typing.Iterable[Emoji]) -> None: 
+        self.emojis = emojis
         
     def to_message(self) -> discord.Embed:
-        return str(self.emoji)
+        return " ".join([str(e) for e in self.emojis])
     
     @classmethod
     def build_with_args(cls, args: typing.Iterable[str], message: discord.Message) -> "BotResponse":
-        return cls(random.choice(list(filter(lambda e: e.name.startswith("panda"), message.guild.emojis))))
+        amount_of_pandas = 1
+        if len(args) > 0 : 
+            try: 
+                amount_of_pandas = int(args[0])
+            except ValueError: 
+                pass
+        amount_of_pandas = max(Constants.MAX_AMOUNT_PANDAS, amount_of_pandas)
+        pandas = list(filter(lambda e: e.name.startswith("panda"), message.guild.emojis))
+        pandas_resp = []
+        for i in range(amount_of_pandas): 
+            pandas_resp.append(random.choice(pandas))
+        return cls(pandas_resp)
