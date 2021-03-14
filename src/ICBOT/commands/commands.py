@@ -87,7 +87,7 @@ class RandomPanda(BotResponse):
                 amount_of_pandas = int(args[0])
             except ValueError: 
                 pass
-        amount_of_pandas = max(Constants.MAX_AMOUNT_PANDAS, amount_of_pandas)
+        amount_of_pandas = min(max(1, amount_of_pandas), Constants.MAX_AMOUNT_PANDAS)
         pandas = list(filter(lambda e: e.name.startswith("panda"), message.guild.emojis))
         pandas_resp = []
         for i in range(amount_of_pandas): 

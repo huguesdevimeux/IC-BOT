@@ -19,7 +19,7 @@ class Constants:
         "dsd": _moodle_url.format(id=DSD_ID),
         "analyse": _moodle_url.format(id=ANALYSE_ID),
     }
-    MAX_AMOUNT_PANDAS = 25
+    MAX_AMOUNT_PANDAS = 50
 
 
 class ErrorMessages:
