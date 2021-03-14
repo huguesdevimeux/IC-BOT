@@ -82,7 +82,7 @@ class RandomPanda(BotResponse):
     @classmethod
     def build_with_args(cls, args: typing.Iterable[str], message: discord.Message) -> "BotResponse":
         amount_of_pandas = 1
-        if len(args) > 0 : 
+        if len(args) > 0 :
             try: 
                 amount_of_pandas = int(args[0])
             except ValueError: 
