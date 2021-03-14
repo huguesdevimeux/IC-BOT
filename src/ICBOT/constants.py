@@ -83,9 +83,9 @@ class Commands:
         "Délégués", "delegues", "pour savoir qui sont les délégués actuels."
     )
     DRIVE = _Command(
-        "Drive",
+        "Drive (BETA)",
         "drive",
-        "pour chercher un document dans le drive de section (Bientôt ..)",
+        "pour chercher un document dans le drive de section (très peu efficace, version alpha)",
     )
     RANDOMPANDA = _Command(
         "Panda aléatoire",
@@ -93,7 +93,7 @@ class Commands:
         "pour avoir un émoji panda aléatoire",
     )
     RANDOMCOPIEPATE = _Command(
-        "Copie pate aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
+        "Copie pâte aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
     )
 
     @classmethod
