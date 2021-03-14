@@ -20,4 +20,4 @@ def clean_message(message_content):
         " ",
         message_content,
     ).strip()
-    return message_content
+    return unidecode(message_content)
