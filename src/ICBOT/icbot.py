@@ -19,14 +19,15 @@ from .constants import Constants
 class ICBOT(discord.Client):
     async def on_ready(self):
         logger.info("BOT IS READY")
+        for guild in self.guilds: 
+            logger.info(f"On {guild} (id {guild.id}")
 
     @filter_message
     async def on_message(self, message: Message):
-        logger.debug(f"Message recieved {message.content} from {message.author}")
         content = clean_message(message.content)
-        logger.debug(f"Cleaned message : {content}")
         args = content.split(" ")
         if args.pop(0) == Constants.PREFIX:
+            logger.info(f"Recived command : {args}")
             try:
                 resp = CommandManager.parse_command(args, message)
             except AbstractICBOTException as e:
