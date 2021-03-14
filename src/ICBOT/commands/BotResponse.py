@@ -34,6 +34,3 @@ class BotResponse(ABC):
             The message the request comes from.
         """
         return cls()
-
-    def __str__(self) -> str:
-        return type(self)
