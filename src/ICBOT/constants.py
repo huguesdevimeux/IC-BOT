@@ -20,7 +20,6 @@ class Constants:
         "analyse": _moodle_url.format(id=ANALYSE_ID),
     }
     MAX_AMOUNT_PANDAS = 50
-    TESTING = False
 
 
 class ErrorMessages:
