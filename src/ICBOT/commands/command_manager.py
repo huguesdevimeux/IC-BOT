@@ -6,8 +6,8 @@ from ICBOT.utils.data_loader import COPIE_PATES
 
 from ..constants import Commands, Constants, ErrorMessages
 from .commands import Drive, Help, Delegates, Moodle, RandomCopiePate, RandomPanda
-from .BotResponse import BotResponse
-from .exceptions import InvalidCommandName, NoArgument, NoCommand
+from ..BotResponse import BotResponse
+from ..exceptions import InvalidCommandName, NoArgument, NoCommand
 
 
 class CommandManager:
