@@ -78,4 +78,4 @@ class ICBOT(discord.Client):
                     except HTTPException as e: 
                         logger.warning(f"Could send mail {mails_section[section]['object']}")
                         logger.warning(e)
-                        pass 
+                        raise Exception()
