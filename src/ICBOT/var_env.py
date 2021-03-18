@@ -16,15 +16,17 @@ __all__ = [
     "DRIVE_LINK",
     "DELEGATES_SC",
     "DELEGATES_IN",
-    "ID_SERVER",
 ]
 
-_config = dotenv_values(Path(__file__).parents[2] / ".env.shared")
+_config_shared = dotenv_values(Path(__file__).parents[2] / ".env.shared")
+_config_secret= dotenv_values(Path(__file__).parents[2] / ".env.secret")
 
-
-def _load_value(name: str) -> str:
+def _load_value(name: str, secret = False) -> str:
     try:
-        return _config[name]
+        if secret: 
+            return _config_secret[name]
+        else: 
+            return _config_shared[name]
     except KeyError:
         logger.warning(f"{name} env variable non loaded.")        
         return "NON_LOADED_DATA"
@@ -36,3 +38,6 @@ ANALYSE_ID = _load_value("ANALYSE_ID")
 DRIVE_LINK = _load_value("DRIVE_LINK")
 DELEGATES_IN = _load_value("DELEGATES_IN")
 DELEGATES_SC = _load_value("DELEGATES_SC")
+
+USER_MAIL = _load_value("USER_MAIL", secret=True)
+PASSWORD_MAIL = _load_value("PASSWORD_MAIL", secret=True)

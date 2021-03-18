@@ -1,7 +1,6 @@
 import discord
 from discord.message import Message
 
-from ..var_env import ID_SERVER
 from ..constants import Constants
 
 

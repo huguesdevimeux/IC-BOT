@@ -20,11 +20,14 @@ class Constants:
         "analyse": _moodle_url.format(id=ANALYSE_ID),
     }
     MAX_AMOUNT_PANDAS = 50
+    SECTIONS = ["IN", "SC"]
+    CHANNEL_MAILS_NAMES = {"IN": "annonces-délégués-in", "SC": "annonces-délégués-sc"}
+    REFRESH_RATE_MAIL = 10
 
 
 class ErrorMessages:
     COMMAND_NOT_FOUND = "`{}` n'est pas une commande enregistrée."
-    NO_COMMAND = "Vous m'avez appelé sans commande !"
+    NO_COMMAND = "Vous m'avez appelé     sans commande !"
     INVALID_ARGUMENT = "{} n'est pas un argument valide"
     NO_ARGUMENT_GIVEN = "La commande `{}` a été appelée sans argument :/"
     MOODLE_NOT_FOUND = "Le cours {} n'a pas été trouvé sur moodle :/"

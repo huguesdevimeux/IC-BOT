@@ -12,9 +12,9 @@ from fuzzywuzzy import process
 from ..constants import Commands, Constants, ErrorMessages, Messages
 from ..utils.data_loader import ALL_FILES_DRIVE, COPIE_PATES, DRIVE_PATH
 from ..utils.logging import logger
-from .BotResponse import BotResponse
-from .exceptions import InvalidArgument, NoArgument
-from .templates import EmebedWithFile, StandardMessage
+from ..BotResponse import BotResponse
+from ..exceptions import InvalidArgument, NoArgument
+from ..templates import EmebedWithFile, StandardMessage
 
 
 class Help(BotResponse):
