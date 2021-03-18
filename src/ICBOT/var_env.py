@@ -6,7 +6,7 @@ from dotenv import dotenv_values
 
 from .utils.logging import logger
 
-# This logic is to intended to all the potntatially private information outside git by storing them in a .env.shared
+# This logic is to intended to keep all the potentially private variables outside git by storing them in a .env.shared
 # at the root.
 
 __all__ = [
