@@ -63,7 +63,7 @@ class ICBOT(discord.Client):
             await channel.send(embed=message.embed, file=message.file)
         logger.info(f"Sent message {message} on {channel}")
             
-    @tasks.loop(minutes=5)
+    @tasks.loop(minutes=3)
     async def handle_mails(self): 
         logger.info("Refreshing mail.")
         # Fuck this code is ugly

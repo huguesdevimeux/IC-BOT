@@ -1,4 +1,5 @@
 from discord import embeds
+from discord import colour
 from discord.colour import Colour
 from abc import ABC
 from .constants import Commands, Constants, Messages
@@ -62,5 +63,5 @@ class ErrorMessage(AbstractMessage):
         
 class Mail(AbstractMessage): 
     def __init__(self, sender:str, object:str, content:str, *args, **kwargs) -> None:
-        super().__init__(title="NOUVEAU MAIL", show_doc=False)
-        self.add_field(name= f"{object}", value = f"_De {sender}_ \n\n{content}")
+        super().__init__(title="NOUVEAU MAIL", show_doc=False, colour = Colour.dark_blue())
+        self.add_field(name= f"Objet : {object}", value = f"_De {sender}_ \n\n{content}")
