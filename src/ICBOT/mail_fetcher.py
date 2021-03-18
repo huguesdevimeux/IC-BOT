@@ -23,8 +23,6 @@ class MailFetcher:
         """
         IMAP_SERVER = "imap.gmail.com"
         PORT = 993
-        USER_MAIL = "icbotendpoint@gmail.com"
-        PASSWORD_MAIL = "@a_4e6$9gSg:7EYN"
         try:
             self.imbox = Imbox(IMAP_SERVER, username=USER_MAIL, password=PASSWORD_MAIL, ssl=True)
         except Exception as e: 

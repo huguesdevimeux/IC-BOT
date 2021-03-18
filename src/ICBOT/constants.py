@@ -21,7 +21,7 @@ class Constants:
     }
     MAX_AMOUNT_PANDAS = 50
     SECTIONS = ["IN", "SC"]
-    CHANNEL_MAILS_NAMES = {"IN": "annonces-délégation-in", "SC": "annonces-délégation-sc"}
+    CHANNEL_MAILS_NAMES = {"IN": "mails-in", "SC": "mails-sc"}
     REFRESH_RATE_MAIL = 10
 
 
