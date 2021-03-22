@@ -5,7 +5,15 @@ from discord import message
 from ICBOT.utils.data_loader import COPIE_PATES
 
 from ..constants import Commands, Constants, ErrorMessages
-from .commands import Drive, Help, Delegates, Moodle, RandomCopiePate, RandomPanda
+from .commands import (
+    Drive,
+    Help,
+    Delegates,
+    Moodle,
+    RandomCopiePate,
+    RandomMeme,
+    RandomPanda,
+)
 from ..BotResponse import BotResponse
 from ..exceptions import InvalidCommandName, NoArgument, NoCommand
 
@@ -28,6 +36,7 @@ class CommandManager:
         Commands.DRIVE.call_name: Drive,
         Commands.RANDOMPANDA.call_name: RandomPanda,
         Commands.RANDOMCOPIEPATE.call_name: RandomCopiePate,
+        Commands.RANDOMMEME.call_name: RandomMeme,
     }
 
     @classmethod
@@ -35,7 +44,7 @@ class CommandManager:
         return cls._MAP_COMMANDS[key]
 
     @classmethod
-    def parse_command(
+    async def parse_command(
         cls, args: typing.Iterable[str], message: message.Message
     ) -> BotResponse:
         """Given the list of the argument passed after the prefix, returns the corresponding Command.
@@ -55,7 +64,7 @@ class CommandManager:
         if len(args) == 0:
             return Help.build_with_args()
         try:
-            return cls._get_commmand(args[0]).build_with_args(args[1:], message)
+            return await cls._get_commmand(args[0]).build_with_args(args[1:], message)
         except KeyError:
             raise InvalidCommandName(
                 message=ErrorMessages.COMMAND_NOT_FOUND.format(args[0])

@@ -6,7 +6,10 @@ from typing import overload
 
 import discord
 from discord import emoji
+from discord.colour import Color
+from discord.embeds import Embed
 from discord.emoji import Emoji
+from discord.enums import ChannelType
 from fuzzywuzzy import process
 
 from ..constants import Commands, Constants, ErrorMessages, Messages
@@ -15,6 +18,7 @@ from ..utils.logging import logger
 from ..BotResponse import BotResponse
 from ..exceptions import InvalidArgument, NoArgument
 from ..templates import EmebedWithFile, StandardMessage
+from ..channels import CHANNELS
 
 
 class Help(BotResponse):
@@ -141,3 +145,32 @@ class RandomCopiePate(BotResponse):
     ) -> "BotResponse":
         copie_pate = random.choice(COPIE_PATES)
         return cls(copie_pate["content"], copie_pate["author"]["id"])
+
+
+class RandomMeme(BotResponse):
+    def __init__(
+        self, url_to_meme: str, author_mention: str, link_to_message: str
+    ) -> None:
+        super().__init__()
+        self.url_to_meme = url_to_meme
+        self.author = author_mention
+        self.link_to_message = link_to_message
+
+    def to_message(self) -> discord.Embed:
+        content = f"[Soumis]({self.link_to_message}) par {self.author} "
+        r = StandardMessage(title="MEME:", content=content, show_doc=False).set_image(
+            url=self.url_to_meme
+        )
+        return r
+
+    @classmethod
+    async def build_with_args(
+        cls, args: typing.Iterable[str], original_message: discord.Message
+    ) -> "BotResponse":
+        message = random.choice(
+            await CHANNELS["memes"]
+            .history()
+            .filter(lambda m: len(m.attachments) > 0)
+            .flatten()
+        )
+        return cls(message.attachments[0].url, message.author.mention, message.jump_url)

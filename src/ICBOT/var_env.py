@@ -19,16 +19,17 @@ __all__ = [
 ]
 
 _config_shared = dotenv_values(Path(__file__).parents[2] / ".env.shared")
-_config_secret= dotenv_values(Path(__file__).parents[2] / ".env.secret")
+_config_secret = dotenv_values(Path(__file__).parents[2] / ".env.secret")
 
-def _load_value(name: str, secret = False) -> str:
+
+def _load_value(name: str, secret=False) -> str:
     try:
-        if secret: 
+        if secret:
             return _config_secret[name]
-        else: 
+        else:
             return _config_shared[name]
     except KeyError:
-        logger.warning(f"{name} env variable non loaded.")        
+        logger.warning(f"{name} env variable non loaded.")
         return "NON_LOADED_DATA"
 
 

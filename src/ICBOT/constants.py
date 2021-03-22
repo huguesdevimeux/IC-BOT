@@ -98,6 +98,8 @@ class Commands:
         "Copie pâte aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
     )
 
+    RANDOMMEME = _Command("Meme aléatoire", "meme", "Pour avoir un meme aléatoire.")
+
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:
         """Returns all the commandes defined.
