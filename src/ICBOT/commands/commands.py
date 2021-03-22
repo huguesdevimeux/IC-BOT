@@ -169,7 +169,7 @@ class RandomMeme(BotResponse):
     ) -> "BotResponse":
         message = random.choice(
             await CHANNELS["memes"]
-            .history()
+            .history(limit=400)
             .filter(lambda m: len(m.attachments) > 0)
             .flatten()
         )
