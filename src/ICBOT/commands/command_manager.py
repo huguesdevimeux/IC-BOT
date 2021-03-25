@@ -62,7 +62,7 @@ class CommandManager:
         Command
         """
         if len(args) == 0:
-            return Help.build_with_args()
+            return await Help.build_with_args()
         try:
             return await cls._get_commmand(args[0]).build_with_args(args[1:], message)
         except KeyError:
