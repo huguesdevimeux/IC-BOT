@@ -63,7 +63,7 @@ class Moodle(BotResponse):
             return r
 
     @classmethod
-    def build_with_args(cls, args: typing.Iterable[str], *argments) -> "BotResponse":
+    async def build_with_args(cls, args: typing.Iterable[str], *argments) -> "BotResponse":
         if len(args) == 0:
             return cls()
         arg = args[0].lower()
@@ -77,7 +77,7 @@ class Drive(BotResponse):
         self.files_names = files_names
 
     # TODO, drive features.
-    def to_message(self) -> discord.Embed:
+    async def to_message(self) -> discord.Embed:
         print(self.files_names)
         temp_path = self.files_names[0].replace("\n", "")[2:]
         embed = StandardMessage(
@@ -90,7 +90,7 @@ class Drive(BotResponse):
         return EmebedWithFile(file_, embed)
 
     @classmethod
-    def build_with_args(
+    async def build_with_args(
         cls, args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
         if len(args) == 0:
@@ -111,7 +111,7 @@ class RandomPanda(BotResponse):
         return " ".join([str(e) for e in self.emojis])
 
     @classmethod
-    def build_with_args(
+    async def build_with_args(
         cls, args: typing.Iterable[str], message: discord.Message
     ) -> "BotResponse":
         amount_of_pandas = 1
@@ -140,7 +140,7 @@ class RandomCopiePate(BotResponse):
         return StandardMessage(content=resp, show_doc=False)
 
     @classmethod
-    def build_with_args(
+    async def build_with_args(
         cls, args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
         copie_pate = random.choice(COPIE_PATES)
