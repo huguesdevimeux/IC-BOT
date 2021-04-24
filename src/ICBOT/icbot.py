@@ -37,6 +37,7 @@ class ICBOT(discord.Client):
 
         update_channels("memes", _load_channel(self.guilds[0].channels, "memes"))
 
+        await self.change_presence(activity=discord.Game("rien de particulier mais on est là quoi"))
         # TODO : put the mail channel is the dict
         self._mail_fetcher = MailFetcher()
         self._channels_mails = {}
