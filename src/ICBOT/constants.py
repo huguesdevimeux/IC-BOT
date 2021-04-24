@@ -31,6 +31,7 @@ class ErrorMessages:
     INVALID_ARGUMENT = "{} n'est pas un argument valide"
     NO_ARGUMENT_GIVEN = "La commande `{}` a été appelée sans argument :/"
     MOODLE_NOT_FOUND = "Le cours {} n'a pas été trouvé sur moodle :/"
+    DRIVE_NO_FILE_SPECIFIED = "Vous n'avez pas spécifié de fichier"
 
 
 class Messages:
@@ -87,7 +88,8 @@ class Commands:
     DRIVE = _Command(
         "Drive (BETA)",
         "drive",
-        "pour chercher un document dans le drive de section (très peu efficace, version alpha)",
+        "pour chercher un document dans le drive de section (bon parfois ça marche ok ?)",
+        f"{Constants.PREFIX} ic [matiere] [fichier à chercher (espaces autorisés)]"
     )
     RANDOMPANDA = _Command(
         "Panda aléatoire",

@@ -5,11 +5,11 @@ import json
 _data_path = Path(__file__).parents[3] / "data"
 
 
-def _load_drive_files_names() -> typing.Iterable[str]:
+def _load_drive_files_index() -> dict:
     if not _data_path.is_dir():
         return ["NON_LOADED_DATA"]
-    with open(_data_path / "drive" / "files.txt", "r") as f:
-        return f.readlines()
+    with open(_data_path / "drive" / "files.json", "r") as f:
+        return json.load(f)
 
 
 def _load_drive_path() -> Path:
@@ -25,5 +25,6 @@ def _load_copie_pates() -> dict:
 
 
 DRIVE_PATH = _load_drive_path()
-ALL_FILES_DRIVE = _load_drive_files_names()
+ALL_FILES_DRIVE = _load_drive_files_index()
+ALL_SUBJECTS_DRIVE = ALL_FILES_DRIVE.keys()
 COPIE_PATES = _load_copie_pates()

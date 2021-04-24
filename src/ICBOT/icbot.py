@@ -31,7 +31,7 @@ def _load_channel(channels, name: str) -> ChannelType:
 class ICBOT(discord.Client):
     async def on_ready(self):
         assert len(self.guilds) == 1
-        logger.info("BOT IS READY")
+        logger.info("BOT IS GETTING READY")
         for guild in self.guilds:
             logger.info(f"On {guild} (id {guild.id}")
 
@@ -51,7 +51,9 @@ class ICBOT(discord.Client):
             )
         logger.info(f"Found mail channels on {self.guilds[0]}")
 
-        self.handle_mails.start()
+        # self.handle_mails.start()
+        
+        logger.info("\nBOT IS READY!\n")
 
     @filter_message
     async def on_message(self, message: Message):

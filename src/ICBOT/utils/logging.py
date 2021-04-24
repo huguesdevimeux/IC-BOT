@@ -7,5 +7,5 @@ logging.basicConfig(
 )
 # Tell the discord API logger to STFU
 logging.getLogger("discord").setLevel(logging.WARNING)
-logger = logging.getLogger("ICEBOT")
+logger = logging.getLogger("ICEBOT")# Vim sessions
 logger.setLevel(logging.DEBUG)

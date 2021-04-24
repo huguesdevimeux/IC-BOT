@@ -3,6 +3,7 @@ import typing
 from abc import ABC, abstractclassmethod, abstractmethod
 from pathlib import Path
 from typing import overload
+import difflib
 
 import discord
 from discord import emoji
@@ -12,13 +13,13 @@ from discord.emoji import Emoji
 from discord.enums import ChannelType
 from fuzzywuzzy import process
 
-from ..constants import Commands, Constants, ErrorMessages, Messages
-from ..utils.data_loader import ALL_FILES_DRIVE, COPIE_PATES, DRIVE_PATH
-from ..utils.logging import logger
 from ..BotResponse import BotResponse
+from ..channels import CHANNELS
+from ..constants import Commands, Constants, ErrorMessages, Messages
 from ..exceptions import InvalidArgument, NoArgument
 from ..templates import EmebedWithFile, StandardMessage
-from ..channels import CHANNELS
+from ..utils.data_loader import ALL_FILES_DRIVE, ALL_SUBJECTS_DRIVE, COPIE_PATES, DRIVE_PATH
+from ..utils.logging import logger
 
 
 class Help(BotResponse):
@@ -73,16 +74,16 @@ class Moodle(BotResponse):
 
 
 class Drive(BotResponse):
-    def __init__(self, files_names: typing.Iterable[typing.Tuple[str, int]]) -> None:
+    def __init__(self, subject : str, files_names: typing.Iterable[typing.Tuple[str, int]]) -> None:
         self.files_names = files_names
+        self.subject = subject
 
     # TODO, drive features.
-    async def to_message(self) -> discord.Embed:
-        print(self.files_names)
+    def to_message(self) -> discord.Embed:
         temp_path = self.files_names[0].replace("\n", "")[2:]
         embed = StandardMessage(
             title="Drive :",
-            content="Résultats : ```"
+            content=f"Résultats pour {self.subject}: ```"
             + "\n".join([f"{c}" for c in self.files_names])
             + "```",
         )
@@ -91,15 +92,19 @@ class Drive(BotResponse):
 
     @classmethod
     async def build_with_args(
-        cls, args: typing.Iterable[str], original_message: discord.Message
+        cls : "Drive", args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
         if len(args) == 0:
             raise NoArgument(Commands.DRIVE.name)
+        if len(args) < 2: 
+            raise InvalidArgument(ErrorMessages.DRIVE_NO_FILE_SPECIFIED)
+        
         logger.info("Searching for " + " ".join(args))
-        import difflib
-
+        probable_subject = difflib.get_close_matches(args[0], ALL_SUBJECTS_DRIVE, cutoff=0.1)[0]
+        probable_files = difflib.get_close_matches("".join(args[1:]), ALL_FILES_DRIVE[probable_subject], cutoff=0.1)
         return cls(
-            difflib.get_close_matches("".join(args), ALL_FILES_DRIVE, cutoff=0.1)
+            probable_subject,
+            probable_files
         )
 
 
