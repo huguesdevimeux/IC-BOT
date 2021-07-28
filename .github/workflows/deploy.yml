@@ -20,7 +20,7 @@ jobs:
         id: deploy
         run: |
           aws deploy create-deployment \
-            --application-name Git_Application \
-            --deployment-group-name development_gropup \
+            --application-name CodeDeploy-ICBOT \
+            --deployment-group-name CodeDeployICEBOT_GRP \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
