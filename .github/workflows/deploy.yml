@@ -24,4 +24,5 @@ jobs:
             --deployment-group-name CodeDeployICEBOT_GRP \
             --deployment-config-name CodeDeployDefault.OneAtATime \
             --description "Deployement for commit ${{ github.event.head_commit.message }}" \
-            --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+            --github-location repository=${{ github.repository }},commitId=${{ github.sha }} \
+            --ignore-application-stop-failures
