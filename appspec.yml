@@ -1,0 +1,19 @@
+version: 0.0
+
+os: linux
+
+files:
+  - source: /
+    destination: /home/ubuntu/icbot
+hooks:
+  AfterInstall:
+    - location: scripts/install_dep.sh
+      timeout: 300
+  ApplicationStart:
+    - location: scripts/icbot_start.sh
+      timeout: 300
+      runas: ubuntu
+  ApplicationStop:
+    - location: scripts/icbot_stop.sh
+      timeout: 300
+      runas: ubuntu
