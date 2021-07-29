@@ -1,4 +1,5 @@
 #!/bin/bash
 
-source ./env/bin/activate
+cd /home/ubuntu/icbot
+source env/bin/activate
 pip install -r requirement.txt
