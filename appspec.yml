@@ -12,8 +12,8 @@ hooks:
   ApplicationStart:
     - location: scripts/icbot_start.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
   ApplicationStop:
     - location: scripts/icbot_stop.sh
       timeout: 300
-      runas: ubuntu
+      runas: root
