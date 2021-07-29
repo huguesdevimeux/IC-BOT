@@ -56,7 +56,7 @@ class ICBOT(discord.Client):
             except AbstractICBOTException as e:
                 resp = e
             await self._handle_send(message.channel, resp.to_message())
-        elif self.user in message.mentions:
+        elif self.user in message.mentions and not message.reference:
             await message.channel.send(Messages.BONSOIR_NON)
 
     async def _handle_send(
