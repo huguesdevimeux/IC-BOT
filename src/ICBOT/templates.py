@@ -60,11 +60,4 @@ class ErrorMessage(AbstractMessage):
             *args,
             **kwargs,
         )
-
-
-class Mail(AbstractMessage):
-    def __init__(self, sender: str, object: str, content: str, *args, **kwargs) -> None:
-        super().__init__(
-            title="NOUVEAU MAIL", show_doc=False, colour=Colour.dark_blue()
-        )
-        self.add_field(name=f"Objet : {object}", value=f"_De {sender}_ \n\n{content}")
+        

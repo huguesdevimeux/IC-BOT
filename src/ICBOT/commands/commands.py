@@ -44,35 +44,6 @@ class Delegates(BotResponse):
         )
 
 
-class Moodle(BotResponse):
-    def __init__(
-        self, chosen_cours_name=None, chosen_course_url: typing.Union[None, str] = None
-    ) -> None:
-        super().__init__()
-        self.chosen_cours_name = chosen_cours_name
-        self.chosen_course_url = chosen_course_url
-
-    def to_message(self) -> discord.Embed:
-        if self.chosen_course_url != None:
-            return StandardMessage(title="Lien Moodle :", content=" ").add_field(
-                name=self.chosen_cours_name.upper(), value=self.chosen_course_url
-            )
-        else:
-            r = StandardMessage(title="Liens Moodle : ")
-            for course_name, course_url in Constants.MAP_COURSE_TO_MOODLE_LINK.items():
-                r.add_field(name=course_name.upper(), value=course_url)
-            return r
-
-    @classmethod
-    async def build_with_args(cls, args: typing.Iterable[str], *argments) -> "BotResponse":
-        if len(args) == 0:
-            return cls()
-        arg = args[0].lower()
-        if arg not in Constants.MAP_COURSE_TO_MOODLE_LINK:
-            raise InvalidArgument(ErrorMessages.MOODLE_NOT_FOUND.format(args[0]))
-        return cls(arg, Constants.MAP_COURSE_TO_MOODLE_LINK[args[0]])
-
-
 class Drive(BotResponse):
     def __init__(self, subject : str, files_names: typing.Iterable[typing.Tuple[str, int]]) -> None:
         self.files_names = files_names

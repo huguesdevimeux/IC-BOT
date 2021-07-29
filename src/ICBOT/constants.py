@@ -76,12 +76,6 @@ class Commands:
     """Enumeration of all the commands avaiable."""
 
     HELP = _Command("Aide", "aide", "pour avoir la documentation.")
-    MOODLE = _Command(
-        "Moodle",
-        "moodle",
-        "Les divers liens pour des cours en ligne.",
-        f"{Constants.PREFIX} moodle [optionnel : nom du cours (AICC2, etc)]",
-    )
     DELEGATES = _Command(
         "Délégués", "delegues", "pour savoir qui sont les délégués actuels."
     )

@@ -9,7 +9,6 @@ from .commands import (
     Drive,
     Help,
     Delegates,
-    Moodle,
     RandomCopiePate,
     RandomMeme,
     RandomPanda,
@@ -32,7 +31,6 @@ class CommandManager:
     _MAP_COMMANDS = {
         Commands.HELP.call_name: Help,
         Commands.DELEGATES.call_name: Delegates,
-        Commands.MOODLE.call_name: Moodle,
         Commands.DRIVE.call_name: Drive,
         Commands.RANDOMPANDA.call_name: RandomPanda,
         Commands.RANDOMCOPIEPATE.call_name: RandomCopiePate,

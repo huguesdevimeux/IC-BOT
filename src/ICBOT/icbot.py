@@ -13,8 +13,7 @@ from .BotResponse import BotResponse
 from .commands.command_manager import CommandManager
 from .exceptions import AbstractICBOTException
 from .constants import Constants, Messages
-from .mail_fetcher import MailFetcher
-from .templates import EmebedWithFile, Mail
+from .templates import EmebedWithFile
 from .utils.cleaner import clean_message
 from .utils.filter import filter_message
 from .utils.logging import logger
@@ -79,28 +78,3 @@ class ICBOT(discord.Client):
         elif isinstance(message, EmebedWithFile):
             await channel.send(embed=message.embed, file=message.file)
         logger.info(f"Sent message {message} on {channel}")
-
-    @tasks.loop(minutes=3)
-    async def handle_mails(self):
-        logger.info("Refreshing mail.")
-        # Fuck this code is ugly
-        with self._mail_fetcher.fetched_email() as mails_section:
-            for section in mails_section:
-                if mails_section[section] is not None:
-                    logger.info(f"Trying to send an email to {section}")
-                    logger.info(
-                        f"Mail to send ('object') {mails_section[section]['object']}"
-                    )
-                    to_send = Mail(
-                        mails_section[section]["sender"],
-                        mails_section[section]["object"],
-                        mails_section[section]["content"],
-                    )
-                    try:
-                        await self._handle_send(self._channels_mails[section], to_send)
-                    except HTTPException as e:
-                        logger.warning(
-                            f"Could send mail {mails_section[section]['object']}"
-                        )
-                        logger.warning(e)
-                        raise Exception()
