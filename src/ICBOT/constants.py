@@ -83,7 +83,7 @@ class Commands:
         "Drive (BETA)",
         "drive",
         "pour chercher un document dans le drive de section (bon parfois ça marche ok ?)",
-        f"{Constants.PREFIX} ic [matiere] [fichier à chercher (espaces autorisés)]"
+        f"{Constants.PREFIX} ic [matiere] [fichier à chercher (espaces autorisés)]",
     )
     RANDOMPANDA = _Command(
         "Panda aléatoire",

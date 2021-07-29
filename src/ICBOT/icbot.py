@@ -35,23 +35,14 @@ class ICBOT(discord.Client):
             logger.info(f"On {guild} (id {guild.id}")
 
         update_channels("memes", _load_channel(self.guilds[0].channels, "memes"))
+        update_channels(
+            "copie-pates", _load_channel(self.guilds[0].channels, "copie-pates")
+        )
 
-        await self.change_presence(activity=discord.Game("rien de particulier mais on est là quoi"))
-        # TODO : put the mail channel is the dict
-        self._mail_fetcher = MailFetcher()
-        self._channels_mails = {}
-        for section in Constants.SECTIONS:
-            self._channels_mails[section] = discord.utils.get(
-                self.guilds[0].channels, name=Constants.CHANNEL_MAILS_NAMES[section]
-            )
-        if self._channels_mails[section] is None:
-            raise Exception(
-                f"Couldn't find mail channel named {Constants.CHANNEL_MAILS_NAMES[section]}"
-            )
-        logger.info(f"Found mail channels on {self.guilds[0]}")
+        await self.change_presence(
+            activity=discord.Game("rien de particulier mais on est là quoi")
+        )
 
-        # self.handle_mails.start()
-        
         logger.info("\nBOT IS READY!\n")
 
     @filter_message

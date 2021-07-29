@@ -60,4 +60,3 @@ class ErrorMessage(AbstractMessage):
             *args,
             **kwargs,
         )
-        

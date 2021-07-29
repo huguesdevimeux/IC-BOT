@@ -1,7 +1,11 @@
 __all__ = ["CHANNELS", "update_channels"]
 
 
-CHANNELS = {}
+from typing import Dict
+from discord.channel import TextChannel
+
+
+CHANNELS: Dict[str, TextChannel] = {}
 
 
 def update_channels(name, channel):

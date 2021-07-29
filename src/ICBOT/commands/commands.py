@@ -12,13 +12,20 @@ from discord.embeds import Embed
 from discord.emoji import Emoji
 from discord.enums import ChannelType
 from fuzzywuzzy import process
+from async_lru import alru_cache
+
+from ICBOT.utils.ttl_hash import get_ttl_hash
 
 from ..BotResponse import BotResponse
 from ..channels import CHANNELS
 from ..constants import Commands, Constants, ErrorMessages, Messages
 from ..exceptions import InvalidArgument, NoArgument
 from ..templates import EmebedWithFile, StandardMessage
-from ..utils.data_loader import ALL_FILES_DRIVE, ALL_SUBJECTS_DRIVE, COPIE_PATES, DRIVE_PATH
+from ..utils.data_loader import (
+    ALL_FILES_DRIVE,
+    ALL_SUBJECTS_DRIVE,
+    DRIVE_PATH,
+)
 from ..utils.logging import logger
 
 
@@ -45,7 +52,9 @@ class Delegates(BotResponse):
 
 
 class Drive(BotResponse):
-    def __init__(self, subject : str, files_names: typing.Iterable[typing.Tuple[str, int]]) -> None:
+    def __init__(
+        self, subject: str, files_names: typing.Iterable[typing.Tuple[str, int]]
+    ) -> None:
         self.files_names = files_names
         self.subject = subject
 
@@ -63,20 +72,21 @@ class Drive(BotResponse):
 
     @classmethod
     async def build_with_args(
-        cls : "Drive", args: typing.Iterable[str], original_message: discord.Message
+        cls: "Drive", args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
         if len(args) == 0:
             raise NoArgument(Commands.DRIVE.name)
-        if len(args) < 2: 
+        if len(args) < 2:
             raise InvalidArgument(ErrorMessages.DRIVE_NO_FILE_SPECIFIED)
-        
+
         logger.info("Searching for " + " ".join(args))
-        probable_subject = difflib.get_close_matches(args[0], ALL_SUBJECTS_DRIVE, cutoff=0.1)[0]
-        probable_files = difflib.get_close_matches("".join(args[1:]), ALL_FILES_DRIVE[probable_subject], cutoff=0.1)
-        return cls(
-            probable_subject,
-            probable_files
+        probable_subject = difflib.get_close_matches(
+            args[0], ALL_SUBJECTS_DRIVE, cutoff=0.1
+        )[0]
+        probable_files = difflib.get_close_matches(
+            "".join(args[1:]), ALL_FILES_DRIVE[probable_subject], cutoff=0.1
         )
+        return cls(probable_subject, probable_files)
 
 
 class RandomPanda(BotResponse):
@@ -119,8 +129,14 @@ class RandomCopiePate(BotResponse):
     async def build_with_args(
         cls, args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
-        copie_pate = random.choice(COPIE_PATES)
-        return cls(copie_pate["content"], copie_pate["author"]["id"])
+        copie_pates = await RandomCopiePate._load_copiepates(get_ttl_hash(600))
+        copie_pate = random.choice(copie_pates)
+        return cls(copie_pate.clean_content, copie_pate.author.id)
+
+    @staticmethod
+    @alru_cache(maxsize=1)
+    async def _load_copiepates(ttl=None):
+        return await CHANNELS["copie-pates"].history(limit=400).flatten()
 
 
 class RandomMeme(BotResponse):
@@ -143,10 +159,18 @@ class RandomMeme(BotResponse):
     async def build_with_args(
         cls, args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
-        message = random.choice(
+        message = random.choice(await RandomMeme._load_memes(get_ttl_hash(600)))
+        return cls(message.attachments[0].url, message.author.mention, message.jump_url)
+
+    @staticmethod
+    @alru_cache(maxsize=1)
+    async def _load_memes(ttl_hash=None):
+        return (
             await CHANNELS["memes"]
             .history(limit=400)
-            .filter(lambda m: len(m.attachments) > 0)
+            .filter(
+                lambda m: len(m.attachments) > 0
+                and m.attachments[0].content_type.startswith("image")
+            )
             .flatten()
         )
-        return cls(message.attachments[0].url, message.author.mention, message.jump_url)
