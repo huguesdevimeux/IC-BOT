@@ -1,2 +1,4 @@
-source ICEBOT/bin/activate
+#!/bin/bash
+
+source env/bin/activate
 pip install -r requirement.txt
