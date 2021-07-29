@@ -26,3 +26,4 @@ jobs:
             --description "Deployement for commit ${{ github.event.head_commit.message }}" \
             --github-location repository=${{ github.repository }},commitId=${{ github.sha }} \
             --ignore-application-stop-failures
+            --file-exists-behavior OVERWRITE
