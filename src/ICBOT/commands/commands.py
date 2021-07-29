@@ -117,12 +117,13 @@ class RandomPanda(BotResponse):
 
 
 class RandomCopiePate(BotResponse):
-    def __init__(self, copiepate: str, submitter: str):
+    def __init__(self, copiepate: str, submitter: str, link_to_message : str):
         self.copiepate = copiepate
         self.submitter = submitter
+        self._link_to_message = link_to_message
 
     def to_message(self) -> discord.Embed:
-        resp = f"**{self.copiepate}** \n\n_Soumis par_ <@{self.submitter}>"
+        resp = f"**{self.copiepate}** \n\n_[Soumis]({self._link_to_message}) par_ <@{self.submitter}>"
         return StandardMessage(content=resp, show_doc=False)
 
     @classmethod
@@ -131,7 +132,7 @@ class RandomCopiePate(BotResponse):
     ) -> "BotResponse":
         copie_pates = await RandomCopiePate._load_copiepates(get_ttl_hash(600))
         copie_pate = random.choice(copie_pates)
-        return cls(copie_pate.clean_content, copie_pate.author.id)
+        return cls(copie_pate.clean_content, copie_pate.author.id, copie_pate.jump_url)
 
     @staticmethod
     @alru_cache(maxsize=1)
