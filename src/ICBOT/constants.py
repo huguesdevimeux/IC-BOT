@@ -21,8 +21,7 @@ class Constants:
     }
     MAX_AMOUNT_PANDAS = 50
     SECTIONS = ["IN", "SC"]
-    CHANNEL_MAILS_NAMES = {"IN": "mails-in", "SC": "mails-sc"}
-    REFRESH_RATE_MAIL = 10
+    REFRESH_HOURS_WEATHER = 3
 
 
 class ErrorMessages:
@@ -44,12 +43,13 @@ class Messages:
         DRIVE_LINK
     )
     CONTRIBUTING_MESSAGE_FOOTER = (
-        "J'appartiens à toute la promo. Les contributions sont la bienvenue !"
+        "Je suis open-source pour la promo ! Les contributions sont la bienvenue."
     )
-    CONTRIBUTING_MESSAGE = "**Tu veux ajouter une fonctionnalité et devenir _cool_ ? C'est [ici](https://github.com/huguesdevimeux/IC-BOT)**"
+    CONTRIBUTING_MESSAGE = "**C'est [ici](https://github.com/huguesdevimeux/IC-BOT)**"
     BONSOIR_NON = """**
     \uD83D\uDCF6SFR 4G                       \uD83C\uDF19\uD83D\uDD1256%\uD83D\uDD0B\n\n                      21:40\n              Samedi 17 mars\n\n\uD83D\uDCAC  MESSAGES                maintenant\nOumar Coach\n\nBonsoir non
     **"""
+    METEO = "{emoji_weather} **{time_of_day}** : _{description}_ - Ressenti {feels_like}°C : - Prob. précipitations : {probability_precipitation}% - Nuages : {clouds}%."
 
 
 @dataclass
@@ -93,8 +93,8 @@ class Commands:
     RANDOMCOPIEPATE = _Command(
         "Copie pâte aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
     )
-
     RANDOMMEME = _Command("Meme aléatoire", "meme", "Pour avoir un meme aléatoire.")
+    METEO = _Command("La météo", "meteo", description="Pour avoir la météo.")
 
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:

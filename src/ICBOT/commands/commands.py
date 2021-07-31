@@ -11,8 +11,10 @@ from discord.colour import Color
 from discord.embeds import Embed
 from discord.emoji import Emoji
 from discord.enums import ChannelType
+from discord.message import Message
 from fuzzywuzzy import process
 from async_lru import alru_cache
+from ICBOT.utils.meteo import weather_forecasts
 
 from ICBOT.utils.ttl_hash import get_ttl_hash
 
@@ -34,7 +36,7 @@ class Help(BotResponse):
         resp = StandardMessage("AIDE :", content="", show_doc=False)
         for command in Commands.ALL():
             resp.add_field(name=command.name, value=command.help_message)
-        resp.add_field(name="Contribuer :", value=Messages.CONTRIBUTING_MESSAGE)
+        resp.add_field(name="Voir le code / Contribuer :", value=Messages.CONTRIBUTING_MESSAGE)
         return resp
 
     @staticmethod
@@ -117,7 +119,7 @@ class RandomPanda(BotResponse):
 
 
 class RandomCopiePate(BotResponse):
-    def __init__(self, copiepate: str, submitter: str, link_to_message : str):
+    def __init__(self, copiepate: str, submitter: str, link_to_message: str):
         self.copiepate = copiepate
         self.submitter = submitter
         self._link_to_message = link_to_message
@@ -175,3 +177,13 @@ class RandomMeme(BotResponse):
             )
             .flatten()
         )
+
+
+class Meteo(BotResponse):
+    def to_message(self) -> discord.Embed:
+        return StandardMessage(
+            title="Météo à Lausanne :",
+            content="\n".join(str(v) for v in weather_forecasts()[:12]),
+            show_doc=False,
+        )
+        # return await super().build_with_args(args=args, original_message=original_message)

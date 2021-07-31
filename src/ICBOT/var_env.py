@@ -42,3 +42,4 @@ DELEGATES_SC = _load_value("DELEGATES_SC")
 
 USER_MAIL = _load_value("USER_MAIL", secret=True)
 PASSWORD_MAIL = _load_value("PASSWORD_MAIL", secret=True)
+WEATHER_API_KEY = _load_value("WEATHER_API_KEY", secret=True)

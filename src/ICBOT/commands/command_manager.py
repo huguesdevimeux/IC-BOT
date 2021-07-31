@@ -9,6 +9,7 @@ from .commands import (
     Drive,
     Help,
     Delegates,
+    Meteo,
     RandomCopiePate,
     RandomMeme,
     RandomPanda,
@@ -35,6 +36,7 @@ class CommandManager:
         Commands.RANDOMPANDA.call_name: RandomPanda,
         Commands.RANDOMCOPIEPATE.call_name: RandomCopiePate,
         Commands.RANDOMMEME.call_name: RandomMeme,
+        Commands.METEO.call_name: Meteo,
     }
 
     @classmethod
