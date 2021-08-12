@@ -47,6 +47,9 @@ class ICBOT(discord.Client):
 
     @filter_message
     async def on_message(self, message: Message):
+        if message.channel.type is discord.ChannelType.private:
+            return await self.on_private_message(message)
+
         content = clean_message(message.content)
         args = content.split(" ")
         if args.pop(0) == Constants.PREFIX:
@@ -58,6 +61,9 @@ class ICBOT(discord.Client):
             await self._handle_send(message.channel, resp.to_message())
         elif self.user in message.mentions and not message.reference:
             await message.channel.send(Messages.BONSOIR_NON)
+
+    async def on_private_message(self, message: Message):
+        await message.channel.send(Messages.PRIVATE_MESSAGE_ANSWER)
 
     async def _handle_send(
         self, channel: GroupChannel, message: typing.Union[Embed, str]

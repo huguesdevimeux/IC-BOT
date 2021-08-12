@@ -33,6 +33,14 @@ class ErrorMessages:
     DRIVE_NO_FILE_SPECIFIED = "Vous n'avez pas spécifié de fichier"
 
 
+def _d(s):
+    d = {}
+    for c in (65, 97):
+        for i in range(26):
+            d[chr(i + c)] = chr((i + 13) % 26 + c)
+    return "".join([d.get(c, c) for c in s])
+
+
 class Messages:
     DELEGATES = (
         "Il y a quatre délégués (deux par section). N'hésitez pas à les contacter !"
@@ -50,6 +58,9 @@ class Messages:
     \uD83D\uDCF6SFR 4G                       \uD83C\uDF19\uD83D\uDD1256%\uD83D\uDD0B\n\n                      21:40\n              Samedi 17 mars\n\n\uD83D\uDCAC  MESSAGES                maintenant\nOumar Coach\n\nBonsoir non
     **"""
     METEO = "{emoji_weather} **{time_of_day}** : _{description}_ - Ressenti {feels_like}°C : - Prob. précipitations : {probability_precipitation}% - Nuages : {clouds}%."
+    PRIVATE_MESSAGE_ANSWER = _d(
+        "Gur zbbqyr grfg pbhagf sbe 40% bs rinyhngvba 1. Lbh pna tb gb lbhe zbbqyr grfg naq frr lbhe erfhygf. Gb pnyphyngr lbhe crepragntr fpberq sbe gur zbbqyr grfg: 23 cbvagf vg 50%. Vs lbh unir yrff guna 23 cbvagf lbhe crepragntr vf pnyphyngrq nf: ((lbhe cbvagf)/23)50%. Vs lbh unir 23 be zber cbvagf lbhe crepragntr vf pnyphyngrq nf: 50%(1+((lbhe cbvag-23)/4))."
+    )
 
 
 @dataclass
