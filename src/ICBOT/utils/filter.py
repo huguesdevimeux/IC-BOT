@@ -6,10 +6,7 @@ from ..constants import Constants
 
 def filter_message(func):
     async def wrapper(self, message: Message):
-        if not (
-            message.author == self.user
-            or message.channel.type is discord.ChannelType.private
-        ):
+        if not (message.author == self.user):
             await func(self, message)
 
     return wrapper

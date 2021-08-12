@@ -48,10 +48,10 @@ class _WeatherCacher:
         self._cached = weathers
         self._timestamp = datetime.datetime.now()
         return weathers
-    
+
     def value(self):
         return self._cached
-    
+
     def needs_refresh(self):
         return (datetime.datetime.now() - self._timestamp) > datetime.timedelta(
             hours=Constants.REFRESH_HOURS_WEATHER

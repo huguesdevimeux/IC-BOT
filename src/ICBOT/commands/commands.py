@@ -36,7 +36,9 @@ class Help(BotResponse):
         resp = StandardMessage("AIDE :", content="", show_doc=False)
         for command in Commands.ALL():
             resp.add_field(name=command.name, value=command.help_message)
-        resp.add_field(name="Voir le code / Contribuer :", value=Messages.CONTRIBUTING_MESSAGE)
+        resp.add_field(
+            name="Voir le code / Contribuer :", value=Messages.CONTRIBUTING_MESSAGE
+        )
         return resp
 
     @staticmethod
