@@ -42,7 +42,6 @@ class WeatherEntry:
 class _WeatherCacher:
     def __init__(self) -> None:
         self._timestamp = datetime.datetime.min
-        pass
 
     def cache(self, weathers: List[WeatherEntry]):
         self._cached = weathers

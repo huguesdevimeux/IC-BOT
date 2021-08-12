@@ -1,4 +1,4 @@
-from abc import ABC, abstractclassmethod, abstractmethod
+from abc import ABC, abstractmethod
 import typing
 
 import discord
@@ -17,7 +17,6 @@ class BotResponse(ABC):
         discord.Embed
             The message.
         """
-        pass
 
     @classmethod
     async def build_with_args(

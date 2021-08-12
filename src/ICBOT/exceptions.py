@@ -1,5 +1,4 @@
 from .BotResponse import BotResponse
-from abc import ABC, abstractmethod
 
 from ICBOT.constants import Commands, ErrorMessages
 

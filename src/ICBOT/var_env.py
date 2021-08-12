@@ -1,5 +1,3 @@
-import os
-import typing
 from pathlib import Path
 
 from dotenv import dotenv_values

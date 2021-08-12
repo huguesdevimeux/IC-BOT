@@ -1,5 +1,4 @@
 import typing
-from typing import Union
 
 import discord
 from discord.channel import GroupChannel

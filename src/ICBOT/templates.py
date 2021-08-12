@@ -3,7 +3,6 @@ from discord import colour
 from discord.colour import Colour
 from abc import ABC
 from .constants import Commands, Constants, Messages
-import typing
 import discord
 
 
