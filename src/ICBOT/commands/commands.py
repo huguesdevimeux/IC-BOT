@@ -4,15 +4,10 @@ from pathlib import Path
 import difflib
 
 import discord
-from discord import emoji
-from discord.colour import Color
-from discord.embeds import Embed
+from discord import Message
 from discord.emoji import Emoji
-from discord.enums import ChannelType
-from discord.message import Message
-from fuzzywuzzy import process
 from async_lru import alru_cache
-from ICBOT.utils.meteo import weather_forecasts
+from ICBOT.utils.meteo import weather_forecast, KeyValueCache
 
 from ICBOT.utils.ttl_hash import get_ttl_hash
 
@@ -20,7 +15,7 @@ from ..BotResponse import BotResponse
 from ..channels import CHANNELS
 from ..constants import Commands, Constants, ErrorMessages, Messages
 from ..exceptions import InvalidArgument, NoArgument
-from ..templates import EmebedWithFile, StandardMessage
+from ..templates import EmebedWithFile, StandardMessage, ErrorMessage
 from ..utils.data_loader import (
     ALL_FILES_DRIVE,
     ALL_SUBJECTS_DRIVE,
@@ -179,11 +174,42 @@ class RandomMeme(BotResponse):
         )
 
 
+weatherCache = KeyValueCache()
+
+
 class Meteo(BotResponse):
+    def __init__(
+        self, city_name: str
+    ) -> None:
+        self._city_name = city_name
+
+    @classmethod
+    async def build_with_args(
+        cls, args: typing.Iterable[str] = None, original_message: Message = None
+    ) -> "BotResponse":
+        arg = " ".join(args)
+        return cls(arg if arg else 'Lausanne')
+
     def to_message(self) -> discord.Embed:
+        contents = self._get_contents()
+
+        if contents == ErrorMessages.WEATHER_ERROR or contents == ErrorMessages.CITY_NOT_FOUND:
+            return ErrorMessage(contents)
+
         return StandardMessage(
-            title="Météo à Lausanne :",
-            content="\n".join(str(v) for v in weather_forecasts()[:12]),
+            title=f"Météo à {self._city_name.title()} :",
+            content=contents,
             show_doc=False,
         )
-        # return await super().build_with_args(args=args, original_message=original_message)
+
+    def _get_contents(self):
+        cache_key = self._city_name.lower()
+
+        if not weatherCache.needs_refresh(cache_key):
+            logger.info(f'Using cached data for weather at “{cache_key}”.')
+            return weatherCache.get(cache_key)
+
+        contents = weather_forecast(cache_key)
+        if contents != ErrorMessages.WEATHER_ERROR:
+            weatherCache.cache(cache_key, contents, Constants.REFRESH_HOURS_WEATHER * 60 * 60)
+        return contents

@@ -27,7 +27,8 @@ class ErrorMessages:
     NO_ARGUMENT_GIVEN = "La commande `{}` a été appelée sans argument :/"
     MOODLE_NOT_FOUND = "Le cours {} n'a pas été trouvé sur moodle :/"
     DRIVE_NO_FILE_SPECIFIED = "Vous n'avez pas spécifié de fichier"
-
+    CITY_NOT_FOUND = "J’ai cherché partout, mais je n’ai pas trouvé cet endroit :/"
+    WEATHER_ERROR = "Je dois être rouillé, je n’arrive pas à regarder dans ma boule de cristal :/"
 
 def _d(s):
     d = {}
