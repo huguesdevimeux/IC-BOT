@@ -39,22 +39,27 @@ class WeatherEntry:
 
 
 class KeyValueCache:
-    """
-    A simple cache that stores values for given keys in memory.
-    """
+    """A simple cache that stores values for given keys in memory."""
 
     def __init__(self) -> None:
         self._values = {}  # key → value
         self._expirations = {}  # key → DateTime of the expiration
 
     def cache(self, key, value, seconds: int):
-        """
-        Stores a new value in the cache.
+        """Stores a new value in the cache.
 
-        :param key: the key
-        :param value: the value
-        :param seconds: how many seconds the value lasts before it needs to be replaced
-        :returns: the value
+        Parameters
+        ----------
+        key
+            the key
+        value
+            the value
+        seconds
+            how many seconds the value lasts before it needs to be replaced
+
+        Returns
+        -------
+        The value that was just cached
         """
 
         self._values[key] = value
@@ -64,20 +69,32 @@ class KeyValueCache:
         return value
 
     def get(self, key):
-        """
-        Returns the latest stored value for a key, or None if no value was stored.
+        """Returns the latest stored value for a key, or None if no value was stored.
 
-        :param key: the key
+        Parameters
+        ----------
+        key
+            the key
+
+        Returns
+        -------
+        The value from the cache
         """
 
         return self._values.get(key)
 
-    def needs_refresh(self, key):
-        """
-        Returns whether a new value should be computed for the given key.
+    def needs_refresh(self, key) -> bool:
+        """Returns whether a new value should be computed for the given key.
 
-        :param key: the key
-        :returns: True if there is no suitable value for the given key; False otherwise
+        Parameters
+        ----------
+        key
+            the key
+
+        Returns
+        -------
+        bool
+            True if there is no suitable value for the given key; False otherwise
         """
 
         return (
