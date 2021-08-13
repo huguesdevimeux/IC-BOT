@@ -102,7 +102,12 @@ class Commands:
         "Copie pâte aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
     )
     RANDOMMEME = _Command("Meme aléatoire", "meme", "Pour avoir un meme aléatoire.")
-    METEO = _Command("La météo", "meteo", description="Pour avoir la météo.")
+    METEO = _Command(
+        "La météo",
+        "meteo",
+        description="Pour avoir la météo.",
+        usage=f"{Constants.PREFIX} meteo [ville=Lausanne]",
+    )
 
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:
