@@ -58,7 +58,9 @@ class KeyValueCache:
         """
 
         self._values[key] = value
-        self._expirations[key] = datetime.datetime.now() + datetime.timedelta(seconds=seconds)
+        self._expirations[key] = datetime.datetime.now() + datetime.timedelta(
+            seconds=seconds
+        )
         return value
 
     def get(self, key):
@@ -68,7 +70,7 @@ class KeyValueCache:
         :param key: the key
         """
 
-        return self._values[key] if key in self._values else None
+        return self._values.get(key)
 
     def needs_refresh(self, key):
         """
@@ -78,7 +80,10 @@ class KeyValueCache:
         :returns: True if there is no suitable value for the given key; False otherwise
         """
 
-        return not (key in self._expirations) or self._expirations[key] <= datetime.datetime.now()
+        return (
+            not (key in self._expirations)
+            or self._expirations[key] <= datetime.datetime.now()
+        )
 
 
 icons_to_emoji = {
@@ -111,7 +116,7 @@ def weather_forecast(city_name: str):
     :return: the weather forecast message (as a String)
     """
 
-    url = 'https://api.openweathermap.org/data/2.5/forecast'
+    url = "https://api.openweathermap.org/data/2.5/forecast"
     payload = {
         "appid": WEATHER_API_KEY,
         "q": city_name,
@@ -122,11 +127,13 @@ def weather_forecast(city_name: str):
     r = requests.get(url, params=payload)
     response = r.json()
 
-    if response['cod'] == '404':
+    if response["cod"] == "404":
         return ErrorMessages.CITY_NOT_FOUND
 
-    if response['cod'] != '200':
-        logger.error(f'Weather update error #{response["cod"]}: “{response["message"]}”')
+    if response["cod"] != "200":
+        logger.error(
+            f'Weather update error #{response["cod"]}: “{response["message"]}”'
+        )
         return ErrorMessages.WEATHER_ERROR
 
     weathers = []

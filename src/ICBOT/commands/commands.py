@@ -178,9 +178,7 @@ weatherCache = KeyValueCache()
 
 
 class Meteo(BotResponse):
-    def __init__(
-        self, city_name: str
-    ) -> None:
+    def __init__(self, city_name: str) -> None:
         self._city_name = city_name
 
     @classmethod
@@ -188,12 +186,15 @@ class Meteo(BotResponse):
         cls, args: typing.Iterable[str] = None, original_message: Message = None
     ) -> "BotResponse":
         arg = " ".join(args)
-        return cls(arg if arg else 'Lausanne')
+        return cls(arg if arg else "Lausanne")
 
     def to_message(self) -> discord.Embed:
         contents = self._get_contents()
 
-        if contents == ErrorMessages.WEATHER_ERROR or contents == ErrorMessages.CITY_NOT_FOUND:
+        if (
+            contents == ErrorMessages.WEATHER_ERROR
+            or contents == ErrorMessages.CITY_NOT_FOUND
+        ):
             return ErrorMessage(contents)
 
         return StandardMessage(
@@ -206,10 +207,12 @@ class Meteo(BotResponse):
         cache_key = self._city_name.lower()
 
         if not weatherCache.needs_refresh(cache_key):
-            logger.info(f'Using cached data for weather at “{cache_key}”.')
+            logger.info(f"Using cached data for weather at “{cache_key}”.")
             return weatherCache.get(cache_key)
 
         contents = weather_forecast(cache_key)
         if contents != ErrorMessages.WEATHER_ERROR:
-            weatherCache.cache(cache_key, contents, Constants.REFRESH_HOURS_WEATHER * 60 * 60)
+            weatherCache.cache(
+                cache_key, contents, Constants.REFRESH_HOURS_WEATHER * 60 * 60
+            )
         return contents
