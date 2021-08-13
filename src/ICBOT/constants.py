@@ -27,6 +27,10 @@ class ErrorMessages:
     NO_ARGUMENT_GIVEN = "La commande `{}` a été appelée sans argument :/"
     MOODLE_NOT_FOUND = "Le cours {} n'a pas été trouvé sur moodle :/"
     DRIVE_NO_FILE_SPECIFIED = "Vous n'avez pas spécifié de fichier"
+    CITY_NOT_FOUND = "J’ai cherché partout, mais je n’ai pas trouvé cet endroit :/"
+    WEATHER_ERROR = (
+        "Je dois être rouillé, je n’arrive pas à regarder dans ma boule de cristal :/"
+    )
 
 
 def _d(s):
@@ -101,7 +105,12 @@ class Commands:
         "Copie pâte aléatoire", "copiepate", "pour avoir un copie pate aléatoire."
     )
     RANDOMMEME = _Command("Meme aléatoire", "meme", "Pour avoir un meme aléatoire.")
-    METEO = _Command("La météo", "meteo", description="Pour avoir la météo.")
+    METEO = _Command(
+        "La météo",
+        "meteo",
+        description="Pour avoir la météo.",
+        usage=f"{Constants.PREFIX} meteo [ville=Lausanne]",
+    )
 
     @classmethod
     def ALL(cls) -> typing.Iterable[_Command]:
