@@ -47,7 +47,7 @@ class KeyValueCache:
         self._values = {}  # key → value
         self._expirations = {}  # key → DateTime of the expiration
 
-    def cache(self, key, value, seconds):
+    def cache(self, key, value, seconds: int):
         """
         Stores a new value in the cache.
 

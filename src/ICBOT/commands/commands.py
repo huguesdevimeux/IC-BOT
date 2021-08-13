@@ -202,7 +202,7 @@ class Meteo(BotResponse):
             show_doc=False,
         )
 
-    def _get_contents(self):
+    def _get_contents(self) -> str:
         cache_key = self._city_name.lower()
 
         if not weatherCache.needs_refresh(cache_key):
