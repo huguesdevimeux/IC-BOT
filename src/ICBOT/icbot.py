@@ -52,7 +52,7 @@ class ICBOT(discord.Client):
         content = clean_message(message.content)
         args = content.split(" ")
         if args.pop(0) == Constants.PREFIX:
-            logger.info(f"Recived command : {args}")
+            logger.info(f"Received command: {args}")
             try:
                 resp = await CommandManager.parse_command(args, message)
             except AbstractICBOTException as e:

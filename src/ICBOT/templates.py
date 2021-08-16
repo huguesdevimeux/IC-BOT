@@ -13,7 +13,7 @@ class EmebedWithFile:
 
 
 class AbstractMessage(discord.Embed, ABC):
-    """Abstract class for all the embeded message ICBOT can send."""
+    """Abstract class for all the embedded messages ICBOT can send."""
 
     def __init__(self, show_doc=True, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
