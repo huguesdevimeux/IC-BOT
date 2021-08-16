@@ -6,7 +6,7 @@ _data_path = Path(__file__).parents[3] / "data"
 
 def _load_drive_files_index() -> dict:
     if not _data_path.is_dir():
-        return ["NON_LOADED_DATA"]
+        return {"NON_LOADED_DATA": "NON_LOADED_DATA"}
     with open(_data_path / "drive" / "files.json", "r") as f:
         return json.load(f)
 
