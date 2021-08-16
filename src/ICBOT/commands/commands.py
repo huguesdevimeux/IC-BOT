@@ -26,7 +26,7 @@ from ..utils.logging import logger
 
 class Help(BotResponse):
     def to_message(self) -> discord.Embed:
-        resp = StandardMessage("AIDE :", content="", show_doc=False)
+        resp = StandardMessage("AIDE :", content="\u200b", show_doc=False)
         for command in Commands.ALL():
             resp.add_field(name=command.name, value=command.help_message)
         resp.add_field(
@@ -79,7 +79,7 @@ class Drive(BotResponse):
         logger.info("Searching for " + " ".join(args))
         probable_subject = difflib.get_close_matches(
             args[0], ALL_SUBJECTS_DRIVE, cutoff=0.1
-        )
+        )[0]
         probable_files = difflib.get_close_matches(
             "".join(args[1:]), ALL_FILES_DRIVE[probable_subject], cutoff=0.1
         )
