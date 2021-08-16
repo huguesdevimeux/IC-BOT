@@ -47,7 +47,7 @@ class CommandManager:
     async def parse_command(
         cls, args: typing.Iterable[str], message: message.Message
     ) -> BotResponse:
-        """Given the list of the argument passed after the prefix, returns the corresponding Command.
+        """Given the list of arguments passed after the prefix, returns the corresponding Command.
 
         Parameters
         ----------

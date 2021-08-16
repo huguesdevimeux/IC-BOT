@@ -13,7 +13,7 @@ class EmebedWithFile:
 
 
 class AbstractMessage(discord.Embed, ABC):
-    """Abstract class for all the embeded message ICBOT can send."""
+    """Abstract class for all the embedded messages ICBOT can send."""
 
     def __init__(self, show_doc=True, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -33,7 +33,7 @@ class StandardMessage(AbstractMessage):
         super().__init__(
             colour=Colour.blue(), title=title, description=content, show_doc=show_doc
         )
-        self.set_footer(text=Messages.CONTRIBUTING_MESSAGE_FOOTER)
+        self.set_footer(text=Messages.CONTRIBUTION_MESSAGE_FOOTER)
 
     def add_field(self, *, name, value, inline=False):
         fields = self.fields
