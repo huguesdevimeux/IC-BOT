@@ -1,9 +1,8 @@
 from dataclasses import dataclass, field
 import datetime
-from typing import List
 
 from ICBOT.var_env import WEATHER_API_KEY
-from ..constants import Messages, Constants
+from ..constants import Messages, ErrorMessages
 import locale
 from ..utils.logging import logger
 import requests
@@ -39,25 +38,69 @@ class WeatherEntry:
         return Messages.METEO.format_map(vars(self))
 
 
-class _WeatherCacher:
+class KeyValueCache:
+    """A simple cache that stores values for given keys in memory."""
+
     def __init__(self) -> None:
-        self._timestamp = datetime.datetime.min
+        self._values = {}  # key → value
+        self._expirations = {}  # key → DateTime of the expiration
 
-    def cache(self, weathers: List[WeatherEntry]):
-        self._cached = weathers
-        self._timestamp = datetime.datetime.now()
-        return weathers
+    def cache(self, key, value, seconds: int):
+        """Stores a new value in the cache.
 
-    def value(self):
-        return self._cached
+        Parameters
+        ----------
+        key
+            the key
+        value
+            the value
+        seconds
+            how many seconds the value lasts before it needs to be replaced
 
-    def needs_refresh(self):
-        return (datetime.datetime.now() - self._timestamp) > datetime.timedelta(
-            hours=Constants.REFRESH_HOURS_WEATHER
+        Returns
+        -------
+        The value that was just cached
+        """
+
+        self._values[key] = value
+        self._expirations[key] = datetime.datetime.now() + datetime.timedelta(
+            seconds=seconds
         )
+        return value
 
+    def get(self, key):
+        """Returns the latest stored value for a key, or None if no value was stored.
 
-_weather_cacher = _WeatherCacher()
+        Parameters
+        ----------
+        key
+            the key
+
+        Returns
+        -------
+        The value from the cache
+        """
+
+        return self._values.get(key)
+
+    def needs_refresh(self, key) -> bool:
+        """Returns whether a new value should be computed for the given key.
+
+        Parameters
+        ----------
+        key
+            the key
+
+        Returns
+        -------
+        bool
+            True if there is no suitable value for the given key; False otherwise
+        """
+
+        return (
+            not (key in self._expirations)
+            or self._expirations[key] <= datetime.datetime.now()
+        )
 
 
 icons_to_emoji = {
@@ -82,20 +125,34 @@ icons_to_emoji = {
 }
 
 
-def weather_forecasts():
-    if not _weather_cacher.needs_refresh():
-        logger.info("Using cached data for weather.")
-        return _weather_cacher.value()
-    url = "http://api.openweathermap.org/data/2.5/forecast"
+def weather_forecast(city_name: str):
+    """
+    Get the weather forecast for a city
+
+    :param city_name: the city name
+    :return: the weather forecast message (as a String)
+    """
+
+    url = "https://api.openweathermap.org/data/2.5/forecast"
     payload = {
         "appid": WEATHER_API_KEY,
-        "lat": 46.517247,  # EPFL coordinates
-        "lon": 6.56885,
+        "q": city_name,
         "lang": "fr",
         "units": "metric",
     }
+
     r = requests.get(url, params=payload)
     response = r.json()
+
+    if response["cod"] == "404":
+        return ErrorMessages.CITY_NOT_FOUND
+
+    if response["cod"] != "200":
+        logger.error(
+            f'Weather update error #{response["cod"]}: “{response["message"]}”'
+        )
+        return ErrorMessages.WEATHER_ERROR
+
     weathers = []
     for el in response["list"]:
         weathers.append(
@@ -108,4 +165,5 @@ def weather_forecasts():
                 icon=el["weather"][0]["icon"],
             )
         )
-    return _weather_cacher.cache(weathers)
+
+    return "\n".join(str(v) for v in weathers[:12])
