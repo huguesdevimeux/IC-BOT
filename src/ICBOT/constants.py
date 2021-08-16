@@ -50,10 +50,10 @@ class Messages:
     DRIVE_MESSAGE = "Le lien du drive : \n{}. \n**VOUS DEVEZ VOUS CONNECTER AVEC VOTRE COMPTE EPFL.**".format(
         DRIVE_LINK
     )
-    CONTRIBUTING_MESSAGE_FOOTER = (
-        "Je suis open-source pour la promo ! Les contributions sont la bienvenue."
+    CONTRIBUTION_MESSAGE_FOOTER = (
+        "Je suis open-source pour la promo ! Les contributions sont les bienvenues."
     )
-    CONTRIBUTING_MESSAGE = "**C'est [ici](https://github.com/huguesdevimeux/IC-BOT)**"
+    CONTRIBUTION_MESSAGE = "**C'est [ici](https://github.com/huguesdevimeux/IC-BOT)**"
     BONSOIR_NON = """**
     \uD83D\uDCF6SFR 4G                       \uD83C\uDF19\uD83D\uDD1256%\uD83D\uDD0B\n\n                      21:40\n              Samedi 17 mars\n\n\uD83D\uDCAC  MESSAGES                maintenant\nOumar Coach\n\nBonsoir non
     **"""
