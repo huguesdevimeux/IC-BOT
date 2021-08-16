@@ -84,7 +84,7 @@ class Drive(BotResponse):
         logger.info("Searching for " + " ".join(args))
         probable_subject = difflib.get_close_matches(
             args[0], ALL_SUBJECTS_DRIVE, cutoff=0.1
-        )[0]
+        )
         probable_files = difflib.get_close_matches(
             "".join(args[1:]), ALL_FILES_DRIVE[probable_subject], cutoff=0.1
         )
