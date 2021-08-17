@@ -9,7 +9,7 @@ from .commands import ALL_COMMANDS, Help
 
 
 class CommandManager:
-    """Handles the logic of dispatching the commands under user's input.
+    """Handles the logic of dispatching the standard_commands under user's input.
 
     Raises
     ------

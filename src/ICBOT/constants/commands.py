@@ -25,7 +25,7 @@ class CommandInfo:
 
 
 class StandardCommands:
-    """Enumeration of all the commands avaiable."""
+    """Enumeration of all the standard_commands avaiable."""
 
     HELP = CommandInfo("Aide", "aide", "pour avoir la documentation.")
     DELEGATES = CommandInfo(
@@ -60,6 +60,6 @@ class StandardCommands:
         Returns
         -------
         typing.Iterable[_Command]
-            List of all the commands.
+            List of all the standard_commands.
         """
         return [m for _, m in vars(cls).items() if (isinstance(m, CommandInfo))]
