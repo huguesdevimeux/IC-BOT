@@ -30,7 +30,7 @@ class Help(BotResponse):
         for command in Commands.ALL():
             resp.add_field(name=command.name, value=command.help_message)
         resp.add_field(
-            name="Voir le code / Contribuer :", value=Messages.CONTRIBUTING_MESSAGE
+            name="Voir le code / Contribuer :", value=Messages.CONTRIBUTION_MESSAGE
         )
         return resp
 
