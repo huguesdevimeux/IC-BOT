@@ -1,9 +1,10 @@
-from discord import embeds
-from discord import colour
-from discord.colour import Colour
 from abc import ABC
-from .constants import Commands, Constants, Messages
+
 import discord
+from discord.colour import Colour
+
+from .constants.commands import StandardCommands
+from .constants.constants import Messages
 
 
 class EmebedWithFile:
@@ -25,7 +26,9 @@ class AbstractMessage(discord.Embed, ABC):
 
     def _add_doc(self):
         if self.show_doc:
-            super().add_field(name="Documentation :", value=Commands.HELP.help_message)
+            super().add_field(
+                name="Documentation :", value=StandardCommands.HELP.help_message
+            )
 
 
 class StandardMessage(AbstractMessage):

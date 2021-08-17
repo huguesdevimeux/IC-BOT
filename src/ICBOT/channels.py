@@ -2,8 +2,8 @@ __all__ = ["CHANNELS", "update_channels"]
 
 
 from typing import Dict
-from discord.channel import TextChannel
 
+from discord.channel import TextChannel
 
 CHANNELS: Dict[str, TextChannel] = {}
 

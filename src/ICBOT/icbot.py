@@ -4,19 +4,16 @@ import discord
 from discord.channel import GroupChannel
 from discord.embeds import Embed
 from discord.enums import ChannelType
-from discord.errors import HTTPException
-from discord.ext import tasks
 from discord.message import Message
 
-from .BotResponse import BotResponse
+from .channels import update_channels
 from .commands.command_manager import CommandManager
+from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
-from .constants import Constants, Messages
 from .templates import EmebedWithFile
 from .utils.cleaner import clean_message
 from .utils.filter import filter_message
 from .utils.logging import logger
-from .channels import update_channels
 
 
 def _load_channel(channels, name: str) -> ChannelType:

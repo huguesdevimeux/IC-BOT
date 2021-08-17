@@ -2,20 +2,10 @@ import typing
 
 from discord import message
 
-from ICBOT.utils.data_loader import COPIE_PATES
-
-from ..constants import Commands, Constants, ErrorMessages
-from .commands import (
-    Drive,
-    Help,
-    Delegates,
-    Meteo,
-    RandomCopiePate,
-    RandomMeme,
-    RandomPanda,
-)
-from ..BotResponse import BotResponse
-from ..exceptions import InvalidCommandName, NoArgument, NoCommand
+from ..bot_response import BotResponse
+from ..constants.constants import ErrorMessages
+from ..exceptions import InvalidCommandName
+from .commands import ALL_COMMANDS, Help
 
 
 class CommandManager:
@@ -29,15 +19,7 @@ class CommandManager:
         If the user provided a wrong command.
     """
 
-    _MAP_COMMANDS = {
-        Commands.HELP.call_name: Help,
-        Commands.DELEGATES.call_name: Delegates,
-        Commands.DRIVE.call_name: Drive,
-        Commands.RANDOMPANDA.call_name: RandomPanda,
-        Commands.RANDOMCOPIEPATE.call_name: RandomCopiePate,
-        Commands.RANDOMMEME.call_name: RandomMeme,
-        Commands.METEO.call_name: Meteo,
-    }
+    _MAP_COMMANDS = {command.info.call_name: command for command in ALL_COMMANDS}
 
     @classmethod
     def _get_commmand(cls, key: typing.Union[str, int]) -> BotResponse:

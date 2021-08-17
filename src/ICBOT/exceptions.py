@@ -1,7 +1,6 @@
-from .BotResponse import BotResponse
+from ICBOT.constants.constants import ErrorMessages
 
-from ICBOT.constants import Commands, ErrorMessages
-
+from .bot_response import BotResponse
 from .templates import ErrorMessage
 
 

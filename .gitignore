@@ -16,4 +16,5 @@ __pycache__/
 # Vim sessions
 *.vim
 
-icebot.log
+*.log
+/.idea

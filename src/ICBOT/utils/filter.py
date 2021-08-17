@@ -1,7 +1,4 @@
-import discord
 from discord.message import Message
-
-from ..constants import Constants
 
 
 def filter_message(func):

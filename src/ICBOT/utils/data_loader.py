@@ -1,5 +1,5 @@
-from pathlib import Path
 import json
+from pathlib import Path
 
 _data_path = Path(__file__).parents[3] / "data"
 

@@ -1,34 +1,52 @@
+import difflib
 import random
 import typing
 from pathlib import Path
-import difflib
 
 import discord
+from async_lru import alru_cache
 from discord import Message
 from discord.emoji import Emoji
-from async_lru import alru_cache
-from ICBOT.utils.meteo import weather_forecast, KeyValueCache
 
+from ICBOT.constants.commands import CommandInfo, StandardCommands
+from ICBOT.utils.meteo import KeyValueCache, weather_forecast
 from ICBOT.utils.ttl_hash import get_ttl_hash
 
-from ..BotResponse import BotResponse
+from ..bot_response import BotResponse
 from ..channels import CHANNELS
-from ..constants import Commands, Constants, ErrorMessages, Messages
+from ..constants.constants import Constants, ErrorMessages, Messages
 from ..exceptions import InvalidArgument, NoArgument
-from ..templates import EmebedWithFile, StandardMessage, ErrorMessage
-from ..utils.data_loader import (
-    ALL_FILES_DRIVE,
-    ALL_SUBJECTS_DRIVE,
-    DRIVE_PATH,
-)
+from ..templates import EmebedWithFile, ErrorMessage, StandardMessage
+from ..utils.data_loader import ALL_FILES_DRIVE, ALL_SUBJECTS_DRIVE, DRIVE_PATH
 from ..utils.logging import logger
 
+ALL_COMMANDS: typing.List[CommandInfo] = []
 
+
+def command_register(cls : BotResponse):
+    """
+    Decorator that registers a command as, well, a command
+
+    Parameters
+    ----------
+    cls
+        The command
+    Returns
+    -------
+        The same command.
+    """
+    ALL_COMMANDS.append(cls)
+    return cls
+
+
+@command_register
 class Help(BotResponse):
+    info: CommandInfo = StandardCommands.HELP
+
     def to_message(self) -> discord.Embed:
         resp = StandardMessage("AIDE :", content="\u200b", show_doc=False)
-        for command in Commands.ALL():
-            resp.add_field(name=command.name, value=command.help_message)
+        for command in ALL_COMMANDS:
+            resp.add_field(name=command.info.name, value=command.info.help_message)
         resp.add_field(
             name="Voir le code / Contribuer :", value=Messages.CONTRIBUTION_MESSAGE
         )
@@ -36,10 +54,13 @@ class Help(BotResponse):
 
     @staticmethod
     def _generate_help():
-        return "\n".join([command.help_message for command in Commands.ALL()])
+        return "\n".join([command.info.help_message for command in ALL_COMMANDS])
 
 
+@command_register
 class Delegates(BotResponse):
+    info: CommandInfo = StandardCommands.DELEGATES
+
     def to_message(self) -> None:
         return (
             StandardMessage("Délégués :", content=Messages.DELEGATES, show_doc=False)
@@ -48,7 +69,10 @@ class Delegates(BotResponse):
         )
 
 
+@command_register
 class Drive(BotResponse):
+    info: CommandInfo = StandardCommands.DRIVE
+
     def __init__(
         self, subject: str, files_names: typing.Iterable[typing.Tuple[str, int]]
     ) -> None:
@@ -86,7 +110,10 @@ class Drive(BotResponse):
         return cls(probable_subject, probable_files)
 
 
+@command_register
 class RandomPanda(BotResponse):
+    info = StandardCommands.RANDOMPANDA
+
     def __init__(self, emojis: typing.Iterable[Emoji]) -> None:
         self.emojis = emojis
 
@@ -113,7 +140,10 @@ class RandomPanda(BotResponse):
         return cls(pandas_resp)
 
 
+@command_register
 class RandomCopiePate(BotResponse):
+    info = StandardCommands.RANDOMCOPIEPATE
+
     def __init__(self, copiepate: str, submitter: str, link_to_message: str):
         self.copiepate = copiepate
         self.submitter = submitter
@@ -137,7 +167,10 @@ class RandomCopiePate(BotResponse):
         return await CHANNELS["copie-pates"].history(limit=400).flatten()
 
 
+@command_register
 class RandomMeme(BotResponse):
+    info = StandardCommands.RANDOMMEME
+
     def __init__(
         self, url_to_meme: str, author_mention: str, link_to_message: str
     ) -> None:
@@ -177,7 +210,10 @@ class RandomMeme(BotResponse):
 weatherCache = KeyValueCache()
 
 
+@command_register
 class Meteo(BotResponse):
+    info: CommandInfo = StandardCommands.METEO
+
     def __init__(self, city_name: str) -> None:
         self._city_name = city_name
 

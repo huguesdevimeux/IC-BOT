@@ -1,6 +1,7 @@
-from unidecode import unidecode
 import re
-from discord.utils import escape_mentions, escape_markdown
+
+from discord.utils import escape_mentions
+from unidecode import unidecode
 
 
 def remove_mentions(message_content):
