@@ -9,7 +9,7 @@ from discord import Message
 from discord.emoji import Emoji
 
 from ICBOT.constants.commands import CommandInfo, StandardCommands
-from ICBOT.utils.meteo import KeyValueCache, weather_forecast
+from ICBOT.standard_commands.meteo import KeyValueCache, weather_forecast
 from ICBOT.utils.ttl_hash import get_ttl_hash
 
 from ..bot_response import BotResponse

@@ -1,11 +1,12 @@
 import typing
+from abc import abstractclassmethod, abstractmethod
 
 from discord import message
 
-from ..bot_response import BotResponse
-from ..constants.constants import ErrorMessages
-from ..exceptions import InvalidCommandName
-from .commands import ALL_COMMANDS, Help
+from ICBOT.bot_response import BotResponse
+from ICBOT.constants.constants import ErrorMessages
+from ICBOT.exceptions import InvalidCommandName
+from ICBOT.standard_commands.commands import ALL_COMMANDS, Help
 
 
 class CommandManager:
@@ -22,7 +23,9 @@ class CommandManager:
     _MAP_COMMANDS = {command.info.call_name: command for command in ALL_COMMANDS}
 
     @classmethod
-    def _get_commmand(cls, key: typing.Union[str, int]) -> BotResponse:
+    @abstractmethod
+    def get_commmand(cls, key: typing.Union[str, int]) -> BotResponse:
+        """"""
         return cls._MAP_COMMANDS[key]
 
     @classmethod
@@ -46,7 +49,7 @@ class CommandManager:
         if len(args) == 0:
             return await Help.build_with_args()
         try:
-            return await cls._get_commmand(args[0]).build_with_args(args[1:], message)
+            return await cls.get_commmand(args[0]).build_with_args(args[1:], message)
         except KeyError:
             raise InvalidCommandName(
                 message=ErrorMessages.COMMAND_NOT_FOUND.format(args[0])

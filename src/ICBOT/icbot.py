@@ -7,7 +7,7 @@ from discord.enums import ChannelType
 from discord.message import Message
 
 from .channels import update_channels
-from .standard_commands.command_manager import CommandManager
+from ICBOT.command_manager import CommandManager
 from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
 from .templates import EmebedWithFile

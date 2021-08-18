@@ -6,8 +6,8 @@ import requests
 
 from ICBOT.var_env import WEATHER_API_KEY
 
-from ..constants.constants import ErrorMessages, Messages
-from ..utils.logging import logger
+from ICBOT.constants.constants import ErrorMessages, Messages
+from ICBOT.utils.logging import logger
 
 locale.setlocale(locale.LC_ALL, "fr_FR.UTF-8")
 
