@@ -10,6 +10,7 @@ from .channels import update_channels
 from ICBOT.command_manager import CommandManager
 from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
+from .standard_commands.standard_command_manager import StandardCommandManager
 from .templates import EmebedWithFile
 from .utils.cleaner import clean_message
 from .utils.filter import filter_message
@@ -51,7 +52,7 @@ class ICBOT(discord.Client):
         if args.pop(0) == Constants.PREFIX:
             logger.info(f"Received command: {args}")
             try:
-                resp = await CommandManager.parse_command(args, message)
+                resp = await StandardCommandManager.parse_command(args, message)
             except AbstractICBOTException as e:
                 resp = e
             await self._handle_send(message.channel, resp.to_message())

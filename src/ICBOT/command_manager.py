@@ -1,5 +1,5 @@
 import typing
-from abc import abstractclassmethod, abstractmethod
+from abc import abstractclassmethod, abstractmethod, ABC
 
 from discord import message
 
@@ -9,7 +9,7 @@ from ICBOT.exceptions import InvalidCommandName
 from ICBOT.standard_commands.commands import ALL_COMMANDS, Help
 
 
-class CommandManager:
+class CommandManager(ABC):
     """Handles the logic of dispatching the standard_commands under user's input.
 
     Raises
@@ -20,17 +20,28 @@ class CommandManager:
         If the user provided a wrong command.
     """
 
-    _MAP_COMMANDS = {command.info.call_name: command for command in ALL_COMMANDS}
-
     @classmethod
     @abstractmethod
-    def get_commmand(cls, key: typing.Union[str, int]) -> BotResponse:
-        """"""
-        return cls._MAP_COMMANDS[key]
+    def get_command(cls, key: typing.Union[str, int]) -> BotResponse:
+        """
+        Returns the associated command, given its name.
+        Parameters
+        ----------
+        key
+            The command's name.
+        Returns
+        -------
+            The command.
+        Raises
+        ------
+        KeyError
+            If there is no command for the given name.
+        """
+        pass
 
     @classmethod
     async def parse_command(
-        cls, args: typing.Iterable[str], message: message.Message
+            cls, args: typing.Iterable[str], message: message.Message
     ) -> BotResponse:
         """Given the list of arguments passed after the prefix, returns the corresponding Command.
 
@@ -49,7 +60,7 @@ class CommandManager:
         if len(args) == 0:
             return await Help.build_with_args()
         try:
-            return await cls.get_commmand(args[0]).build_with_args(args[1:], message)
+            return await cls.get_command(args[0]).build_with_args(args[1:], message)
         except KeyError:
             raise InvalidCommandName(
                 message=ErrorMessages.COMMAND_NOT_FOUND.format(args[0])
