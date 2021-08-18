@@ -1,12 +1,12 @@
 import typing
-from abc import abstractclassmethod, abstractmethod, ABC
+from abc import ABC
 
 from discord import message
 
 from ICBOT.bot_response import BotResponse
 from ICBOT.constants.constants import ErrorMessages
 from ICBOT.exceptions import InvalidCommandName
-from ICBOT.standard_commands.commands import ALL_COMMANDS, Help
+from ICBOT.standard_commands.commands import Help
 
 
 class CommandManager(ABC):
@@ -20,8 +20,9 @@ class CommandManager(ABC):
         If the user provided a wrong command.
     """
 
+    _MAP_COMMANDS = None
+
     @classmethod
-    @abstractmethod
     def get_command(cls, key: typing.Union[str, int]) -> BotResponse:
         """
         Returns the associated command, given its name.
@@ -37,11 +38,26 @@ class CommandManager(ABC):
         KeyError
             If there is no command for the given name.
         """
-        pass
+
+        return cls._MAP_COMMANDS[key]
+
+    @classmethod
+    def has_command(cls, command: str):
+        """
+        Check if a command is registered.
+        Parameters
+        ----------
+        command
+            The command to check
+        Returns
+        -------
+            Whether the command is registered.
+        """
+        return command in cls._MAP_COMMANDS
 
     @classmethod
     async def parse_command(
-            cls, args: typing.Iterable[str], message: message.Message
+        cls, args: typing.Iterable[str], message: message.Message
     ) -> BotResponse:
         """Given the list of arguments passed after the prefix, returns the corresponding Command.
 
@@ -59,9 +75,8 @@ class CommandManager(ABC):
         """
         if len(args) == 0:
             return await Help.build_with_args()
-        try:
-            return await cls.get_command(args[0]).build_with_args(args[1:], message)
-        except KeyError:
+        if not cls.has_command(args[0]):
             raise InvalidCommandName(
                 message=ErrorMessages.COMMAND_NOT_FOUND.format(args[0])
             )
+        return await cls.get_command(args[0]).build_with_args(args[1:], message)

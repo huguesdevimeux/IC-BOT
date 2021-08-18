@@ -3,6 +3,8 @@ from dataclasses import dataclass
 
 from ICBOT.constants.constants import Constants
 
+__all__ = ["StandardCommands"]
+
 
 @dataclass
 class CommandInfo:

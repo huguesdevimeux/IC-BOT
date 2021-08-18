@@ -4,10 +4,10 @@ import discord
 from discord.channel import GroupChannel
 from discord.embeds import Embed
 from discord.enums import ChannelType
+from discord.ext.commands import ChannelNotFound
 from discord.message import Message
 
 from .channels import update_channels
-from ICBOT.command_manager import CommandManager
 from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
 from .standard_commands.standard_command_manager import StandardCommandManager
@@ -16,11 +16,17 @@ from .utils.cleaner import clean_message
 from .utils.filter import filter_message
 from .utils.logging import logger
 
+__all__ = ["ICBOT"]
+
+
+class _ChannelNotFound(Exception):
+    pass
+
 
 def _load_channel(channels, name: str) -> ChannelType:
     temp = discord.utils.get(channels, name=name)
     if temp == None:
-        raise Exception(f"Channel with name {name} not found.")
+        raise ChannelNotFound(f"Channel with name {name} not found.")
     return temp
 
 
@@ -30,11 +36,12 @@ class ICBOT(discord.Client):
         logger.info("BOT IS GETTING READY")
         for guild in self.guilds:
             logger.info(f"On {guild} (id {guild.id}")
-
-        update_channels("memes", _load_channel(self.guilds[0].channels, "memes"))
-        update_channels(
-            "copie-pates", _load_channel(self.guilds[0].channels, "copie-pates")
-        )
+        try:
+            await self._fetch_channels()
+        except _ChannelNotFound:
+            # Tolerated. Mostly for testing, since we can't (I think, didn't check further) make the bot start on a
+            # already set up server with dpytest.
+            pass
 
         await self.change_presence(
             activity=discord.Game("rien de particulier mais on est là quoi")
@@ -72,3 +79,15 @@ class ICBOT(discord.Client):
         elif isinstance(message, EmebedWithFile):
             await channel.send(embed=message.embed, file=message.file)
         logger.info(f"Sent message {message} on {channel}")
+
+    async def _fetch_channels(self):
+        """Fetches the channels that the bot needs to work (memes, copie-pates).
+
+        Raises
+        ------
+        ChannelNotFound if one of the channel is not found.
+        """
+        update_channels("memes", _load_channel(self.guilds[0].channels, "memes"))
+        update_channels(
+            "copie-pates", _load_channel(self.guilds[0].channels, "copie-pates")
+        )

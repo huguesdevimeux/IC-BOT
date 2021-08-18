@@ -1,8 +1,8 @@
-
-
 from ICBOT.var_env import *
 
 _moodle_url = "https://moodle.epfl.ch/course/view.php?id={id}"
+
+__all__ = ["Constants", "Messages", "ErrorMessages"]
 
 
 class Constants:
