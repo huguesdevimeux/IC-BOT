@@ -8,8 +8,10 @@ from discord.ext.commands import ChannelNotFound
 from discord.message import Message
 
 from .channels import update_channels
+from .command_manager import CommandManager
 from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
+from .icecoin.icecoin_command_manager import IcecoinCommandManager
 from .standard_commands.standard_command_manager import StandardCommandManager
 from .templates import EmebedWithFile
 from .utils.cleaner import clean_message
@@ -53,18 +55,28 @@ class ICBOT(discord.Client):
     async def on_message(self, message: Message):
         if message.channel.type is discord.ChannelType.private:
             return await self.on_private_message(message)
+        if self.user in message.mentions and not message.reference:
+            return await message.channel.send(Messages.BONSOIR_NON)
 
         content = clean_message(message.content)
         args = content.split(" ")
-        if args.pop(0) == Constants.PREFIX:
-            logger.info(f"Received command: {args}")
-            try:
-                resp = await StandardCommandManager.parse_command(args, message)
-            except AbstractICBOTException as e:
-                resp = e
-            await self._handle_send(message.channel, resp.to_message())
-        elif self.user in message.mentions and not message.reference:
-            await message.channel.send(Messages.BONSOIR_NON)
+        manager : typing.Type[CommandManager] = None
+        if args[0] == Constants.PREFIX_STANDARD:
+            logger.info(f"Received standard command: {args}")
+            manager = StandardCommandManager
+        elif args[0] == Constants.PREFIX_ICECOIN:
+            logger.info(f"Received icécoin command: {args}")
+            manager = IcecoinCommandManager
+        else:
+            return
+
+        del args[0]
+
+        try:
+            resp = await manager.parse_command(args, message)
+        except AbstractICBOTException as e:
+            resp = e
+        await self._handle_send(message.channel, resp.to_message())
 
     async def on_private_message(self, message: Message):
         await message.channel.send(Messages.PRIVATE_MESSAGE_ANSWER)

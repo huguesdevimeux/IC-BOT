@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from ICBOT.constants.constants import Constants
 
-__all__ = ["StandardCommands"]
+__all__ = ["StandardCommands", "IcecoinCommands"]
 
 
 @dataclass
@@ -20,7 +20,7 @@ class CommandInfo:
 
     @property
     def help_message(self):
-        r = f"`{Constants.PREFIX} {self.call_name}` {self.description}"
+        r = f"`{Constants.PREFIX_STANDARD} {self.call_name}` {self.description}"
         if len(self.usage) > 0:
             return r + f"\n\t_Usage_ : `{self.usage}`"
         return r
@@ -37,7 +37,7 @@ class StandardCommands:
         "Drive (BETA)",
         "drive",
         "pour chercher un document dans le drive de section (bon parfois ça marche ok ?)",
-        f"{Constants.PREFIX} drive [matiere] [fichier à chercher (espaces autorisés)]",
+        f"{Constants.PREFIX_STANDARD} drive [matiere] [fichier à chercher (espaces autorisés)]",
     )
     RANDOMPANDA = CommandInfo(
         "Panda aléatoire",
@@ -52,7 +52,7 @@ class StandardCommands:
         "La météo",
         "meteo",
         description="Pour avoir la météo.",
-        usage=f"{Constants.PREFIX} meteo [ville=Lausanne]",
+        usage=f"{Constants.PREFIX_STANDARD} meteo [ville=Lausanne]",
     )
 
     @classmethod
@@ -65,3 +65,11 @@ class StandardCommands:
             List of all the standard_commands.
         """
         return [m for _, m in vars(cls).items() if (isinstance(m, CommandInfo))]
+
+
+class IcecoinCommands:
+    """Commands of Icécoin."""
+    HELP = CommandInfo("Aide", "aide", f"Pour avoir l'aide de {Constants.ICECOIN}")
+    INFO = CommandInfo("Infos", "infos", "Pour avoir des informations sur un compte", usage="infos [personne]")
+    GIVE = CommandInfo("Don", "don", f"Donner des {Constants.ICECOIN}.", usage="don [quantité] [destinataire]")
+    TOP = CommandInfo("Top", "top", "pour savoir les plus grosses enflures capitalistes du serveur")

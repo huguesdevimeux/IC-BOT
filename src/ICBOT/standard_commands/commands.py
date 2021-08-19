@@ -23,7 +23,7 @@ from ..utils.logging import logger
 ALL_COMMANDS: typing.List[CommandInfo] = []
 
 
-def command_register(cls : BotResponse):
+def command_register(cls: BotResponse):
     """
     Decorator that registers a command as, well, a command
 

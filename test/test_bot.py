@@ -17,7 +17,7 @@ from ICBOT.icbot import ICBOT
 from ICBOT.constants.constants import Constants, Messages, ErrorMessages
 from ICBOT.standard_commands.commands import Help
 
-PREFIX = Constants.PREFIX
+PREFIX = Constants.PREFIX_STANDARD
 
 
 @pytest.fixture

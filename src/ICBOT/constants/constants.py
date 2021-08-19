@@ -6,8 +6,8 @@ __all__ = ["Constants", "Messages", "ErrorMessages"]
 
 
 class Constants:
-    # TODO Change this name.
-    PREFIX = "!ic"
+    PREFIX_STANDARD = "!ic"
+    PREFIX_ICECOIN = "!ic$"
     MAP_COURSE_TO_MOODLE_LINK = {
         "aicc2": _moodle_url.format(id=AICC2_ID),
         "dsd": _moodle_url.format(id=DSD_ID),
@@ -16,6 +16,7 @@ class Constants:
     MAX_AMOUNT_PANDAS = 50
     SECTIONS = ["IN", "SC"]
     REFRESH_HOURS_WEATHER = 3
+    ICECOIN = "Icécoin™"
 
 
 class ErrorMessages:
