@@ -1,7 +1,7 @@
 from ICBOT.constants.constants import ErrorMessages
 
 from .bot_response import BotResponse
-from .templates import ErrorMessage
+from .standard_commands.templates import ErrorMessage
 
 
 class AbstractICBOTException(Exception, BotResponse):

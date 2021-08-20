@@ -16,7 +16,8 @@ from ..bot_response import BotResponse
 from ..channels import CHANNELS
 from ..constants.constants import Constants, ErrorMessages, Messages
 from ..exceptions import InvalidArgument, NoArgument
-from ..templates import EmebedWithFile, ErrorMessage, StandardMessage
+from ..abstract_templates import EmebedWithFile
+from .templates import StandardMessage, ErrorMessage
 from ..utils.data_loader import ALL_FILES_DRIVE, ALL_SUBJECTS_DRIVE, DRIVE_PATH
 from ..utils.logging import logger
 
@@ -93,10 +94,10 @@ class Drive(BotResponse):
 
     @classmethod
     async def build_with_args(
-        cls: "Drive", args: typing.Iterable[str], original_message: discord.Message
+        cls: typing.Type["Drive"], args: typing.Iterable[str], original_message: discord.Message
     ) -> "BotResponse":
         if len(args) == 0:
-            raise NoArgument(Commands.DRIVE.name)
+            raise NoArgument(StandardCommands.DRIVE.name)
         if len(args) < 2:
             raise InvalidArgument(ErrorMessages.DRIVE_NO_FILE_SPECIFIED)
 

@@ -7,7 +7,7 @@ from discord import Message
 from ICBOT.bot_response import BotResponse
 from ICBOT.constants.commands import CommandInfo, IcecoinCommands
 from ICBOT.constants.constants import Messages, Constants
-from ICBOT.templates import StandardMessage
+from ICBOT.icecoin.templates import StandardMessage
 
 ALL_COMMANDS: List[BotResponse] = []
 

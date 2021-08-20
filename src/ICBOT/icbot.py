@@ -13,7 +13,7 @@ from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
 from .icecoin.icecoin_command_manager import IcecoinCommandManager
 from .standard_commands.standard_command_manager import StandardCommandManager
-from .templates import EmebedWithFile
+from .abstract_templates import EmebedWithFile
 from .utils.cleaner import clean_message
 from .utils.filter import filter_message
 from .utils.logging import logger
