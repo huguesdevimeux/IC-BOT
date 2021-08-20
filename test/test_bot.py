@@ -77,6 +77,19 @@ async def test_wrong_command(bot):
 async def test_bonsoir_non(bot):
     pass
 
+@pytest.mark.asyncio
+async def test_drive(bot):
+    await dpytest.message(f"{PREFIX} drive")
+    assert not dpytest.verify().message().nothing()
+    message = dpytest.get_embed()
+
+    from ICBOT.exceptions import NoArgument
+    assert dpytest.embed_eq(message, NoArgument(StandardCommands.DRIVE.name).to_message())
+
+    await dpytest.message(f"{PREFIX} drive test")
+    from ICBOT.exceptions import InvalidArgument
+    assert dpytest.embed_eq(dpytest.get_embed(), InvalidArgument(ErrorMessages.DRIVE_NO_FILE_SPECIFIED).to_message())
+
 
 @pytest.mark.xfail(reason="dpytest does not support emoji addition")
 @pytest.mark.asyncio
