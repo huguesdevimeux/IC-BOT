@@ -2,7 +2,6 @@ import pytest
 from tinydb import TinyDB
 
 import ICBOT.icecoin.bank as bank
-import tinydb
 
 
 @pytest.fixture()
@@ -21,15 +20,15 @@ def test_entries_management(patch_db):
     entry = bank.BankEntry("1", 78)
     bank.put_entry(entry)
     assert bank.get_entry("1") == entry
-    entry.amount = 88
+    entry._amount = 88
     bank.put_entry(entry)
-    assert bank.get_entry("1").amount == 88
+    assert bank.get_entry("1")._amount == 88
     assert bank.get_entry("1") == entry
 
 
 def test_get_entry(patch_db):
-    with pytest.raises(KeyError, match="no entry"):
-        bank.get_entry("1")
+    # Unexisting entry
+    assert bank.get_entry("1").amount == 0
     entry = bank.BankEntry("1", 78)
     bank.put_entry(entry)
     assert bank.get_entry("1") == entry
