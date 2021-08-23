@@ -1,9 +1,8 @@
 from abc import ABC
 
 import discord
-from discord.colour import Colour
+from discord import Colour
 
-from .constants.commands import StandardCommands
 from .constants.constants import Messages
 
 
@@ -16,8 +15,9 @@ class EmebedWithFile:
 class AbstractMessage(discord.Embed, ABC):
     """Abstract class for all the embedded messages ICBOT can send."""
 
-    def __init__(self, show_doc=True, *args, **kwargs) -> None:
+    def __init__(self, help_message, show_doc=True, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        self.help_message = help_message
         self.show_doc = show_doc
         self._add_doc()
 
@@ -26,15 +26,19 @@ class AbstractMessage(discord.Embed, ABC):
 
     def _add_doc(self):
         if self.show_doc:
-            super().add_field(
-                name="Documentation :", value=StandardCommands.HELP.help_message
-            )
+            super().add_field(name="Documentation :", value=self.help_message)
 
 
-class StandardMessage(AbstractMessage):
-    def __init__(self, title=None, content="", show_doc=True) -> None:
+class AbstractStandardMessage(AbstractMessage, ABC):
+    def __init__(
+            self, help_message, title=None, content="", show_doc=True, colour=Colour.blue()
+    ) -> None:
         super().__init__(
-            colour=Colour.blue(), title=title, description=content, show_doc=show_doc
+            colour=colour,
+            title=title,
+            description=content,
+            show_doc=show_doc,
+            help_message=help_message,
         )
         self.set_footer(text=Messages.CONTRIBUTION_MESSAGE_FOOTER)
 
@@ -51,14 +55,3 @@ class StandardMessage(AbstractMessage):
         super().add_field(name=name, value=value, inline=inline)
         self._add_doc()
         return self
-
-
-class ErrorMessage(AbstractMessage):
-    def __init__(self, text, *args, **kwargs) -> None:
-        super().__init__(
-            colour=Colour.red(),
-            title="ERREUR : ",
-            description=f"**{text}**",
-            *args,
-            **kwargs,
-        )

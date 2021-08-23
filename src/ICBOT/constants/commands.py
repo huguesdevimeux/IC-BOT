@@ -3,7 +3,7 @@ from dataclasses import dataclass
 
 from ICBOT.constants.constants import Constants
 
-__all__ = ["StandardCommands"]
+__all__ = ["StandardCommands", "IcecoinCommands"]
 
 
 @dataclass
@@ -14,13 +14,14 @@ class CommandInfo:
     call_name: str
     description: str
     usage: str = ""
+    prefix: str = Constants.PREFIX_STANDARD
 
     def __str__(self):
         return f"{self.name} {self.description}"
 
     @property
     def help_message(self):
-        r = f"`{Constants.PREFIX} {self.call_name}` {self.description}"
+        r = f"`{self.prefix} {self.call_name}` {self.description}"
         if len(self.usage) > 0:
             return r + f"\n\t_Usage_ : `{self.usage}`"
         return r
@@ -37,7 +38,7 @@ class StandardCommands:
         "Drive (BETA)",
         "drive",
         "pour chercher un document dans le drive de section (bon parfois ça marche ok ?)",
-        f"{Constants.PREFIX} drive [matiere] [fichier à chercher (espaces autorisés)]",
+        f"{Constants.PREFIX_STANDARD} drive [matiere] [fichier à chercher (espaces autorisés)]",
     )
     RANDOMPANDA = CommandInfo(
         "Panda aléatoire",
@@ -52,7 +53,7 @@ class StandardCommands:
         "La météo",
         "meteo",
         description="Pour avoir la météo.",
-        usage=f"{Constants.PREFIX} meteo [ville=Lausanne]",
+        usage=f"{Constants.PREFIX_STANDARD} meteo [ville=Lausanne]",
     )
 
     @classmethod
@@ -65,3 +66,39 @@ class StandardCommands:
             List of all the standard_commands.
         """
         return [m for _, m in vars(cls).items() if (isinstance(m, CommandInfo))]
+
+
+class IcecoinCommands:
+    """Commands of Icécoin."""
+
+    HELP = CommandInfo(
+        "Aide",
+        "aide",
+        f"Pour avoir l'aide de {Constants.ICECOIN}",
+        prefix=Constants.PREFIX_ICECOIN,
+    )
+    INFO = CommandInfo(
+        "Infos",
+        "infos",
+        "Pour avoir des informations sur un compte",
+        usage="infos [personne]",
+        prefix=Constants.PREFIX_ICECOIN,
+    )
+    GIVE = CommandInfo(
+        "Don",
+        "don",
+        f"Donner des {Constants.ICECOIN}.",
+        usage="don [quantité] [destinataire]",
+        prefix=Constants.PREFIX_ICECOIN,
+    )
+    TOP = CommandInfo(
+        "Top",
+        "top",
+        "pour savoir les plus grosses enflures capitalistes du serveur",
+        prefix=Constants.PREFIX_ICECOIN,
+    )
+    MINE = CommandInfo(
+        "Miner",
+        "miner",
+        f"Pour miner, à la main, comme un pauvre. Donne {Constants.AMOUNT_MINING} {Constants.ICECOIN} toutes les {Constants.MINING_REFRESH} s.",
+    )

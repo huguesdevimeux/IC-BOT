@@ -14,7 +14,6 @@ def remove_mentions(message_content):
 
 
 def clean_message(message_content):
-    message_content = remove_mentions(message_content)
     # Remove urls
     message_content = re.sub(
         r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))",

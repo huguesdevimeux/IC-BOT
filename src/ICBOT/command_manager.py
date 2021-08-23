@@ -8,6 +8,8 @@ from ICBOT.constants.constants import ErrorMessages
 from ICBOT.exceptions import InvalidCommandName
 from ICBOT.standard_commands.commands import Help
 
+__all__ = ["CommandManager"]
+
 
 class CommandManager(ABC):
     """Handles the logic of dispatching the standard_commands under user's input.
@@ -57,7 +59,7 @@ class CommandManager(ABC):
 
     @classmethod
     async def parse_command(
-        cls, args: typing.Iterable[str], message: message.Message
+            cls, args: typing.List[str], message: message.Message
     ) -> BotResponse:
         """Given the list of arguments passed after the prefix, returns the corresponding Command.
 
@@ -74,7 +76,7 @@ class CommandManager(ABC):
         Command
         """
         if len(args) == 0:
-            return await Help.build_with_args()
+            args.append(Help.info.call_name)
         if not cls.has_command(args[0]):
             raise InvalidCommandName(
                 message=ErrorMessages.COMMAND_NOT_FOUND.format(args[0])

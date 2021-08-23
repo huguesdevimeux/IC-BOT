@@ -38,3 +38,5 @@ typing-extensions==3.10.0.0
 Unidecode==1.2.0
 urllib3==1.26.6
 yarl==1.6.3
+
+tinydb~=4.5.1
