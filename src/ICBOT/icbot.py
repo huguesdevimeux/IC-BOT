@@ -7,13 +7,13 @@ from discord.enums import ChannelType
 from discord.ext.commands import ChannelNotFound
 from discord.message import Message
 
+from .abstract_templates import EmebedWithFile
 from .channels import update_channels
 from .command_manager import CommandManager
 from .constants.constants import Constants, Messages
 from .exceptions import AbstractICBOTException
 from .icecoin.icecoin_command_manager import IcecoinCommandManager
 from .standard_commands.standard_command_manager import StandardCommandManager
-from .abstract_templates import EmebedWithFile
 from .utils.cleaner import clean_message
 from .utils.filter import filter_message
 from .utils.logging import logger
@@ -60,7 +60,8 @@ class ICBOT(discord.Client):
 
         content = clean_message(message.content)
         args = content.split(" ")
-        manager : typing.Type[CommandManager] = None
+
+        manager: typing.Type[CommandManager] = None
         if args[0] == Constants.PREFIX_STANDARD:
             logger.info(f"Received standard command: {args}")
             manager = StandardCommandManager

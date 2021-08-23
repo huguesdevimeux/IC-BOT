@@ -3,7 +3,6 @@ from abc import ABC
 import discord
 from discord import Colour
 
-from .constants.commands import StandardCommands
 from .constants.constants import Messages
 
 
@@ -27,15 +26,19 @@ class AbstractMessage(discord.Embed, ABC):
 
     def _add_doc(self):
         if self.show_doc:
-            super().add_field(
-                name="Documentation :", value=self.help_message
-            )
+            super().add_field(name="Documentation :", value=self.help_message)
 
 
 class AbstractStandardMessage(AbstractMessage, ABC):
-    def __init__(self, help_message, title=None, content="", show_doc=True, colour=Colour.blue()) -> None:
+    def __init__(
+            self, help_message, title=None, content="", show_doc=True, colour=Colour.blue()
+    ) -> None:
         super().__init__(
-            colour=colour, title=title, description=content, show_doc=show_doc, help_message=help_message
+            colour=colour,
+            title=title,
+            description=content,
+            show_doc=show_doc,
+            help_message=help_message,
         )
         self.set_footer(text=Messages.CONTRIBUTION_MESSAGE_FOOTER)
 

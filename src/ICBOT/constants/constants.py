@@ -18,6 +18,9 @@ class Constants:
     REFRESH_HOURS_WEATHER = 3
     ICECOIN = "Icécoin™"
 
+    MINING_REFRESH = 15
+    AMOUNT_MINING = 20
+
 
 class ErrorMessages:
     COMMAND_NOT_FOUND = "`{}` n'est pas une commande enregistrée."
@@ -29,6 +32,17 @@ class ErrorMessages:
     CITY_NOT_FOUND = "J’ai cherché partout, mais je n’ai pas trouvé cet endroit :/"
     WEATHER_ERROR = (
         "Je dois être rouillé, je n’arrive pas à regarder dans ma boule de cristal :/"
+    )
+
+    # ICécoin
+    NO_ONE_MENTIONED_INFOS = "Il faut mentionner une personne pour avoir son capital !"
+    NO_ONE_MENTIONED_DONATION = (
+        "A qui voulez vous que je donne si vous ne mentionnez pas une seule personne ? Au "
+        "Pape ? "
+    )
+    NO_AMOUNT_SPECIFIED_DONATION = (
+        f"Combien de {Constants.ICECOIN} je suis censé transferer si vous ne me dites "
+        f"aucun montant ? T'essayes de me douiller là"
     )
 
 
