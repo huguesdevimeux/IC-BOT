@@ -59,7 +59,7 @@ class CommandManager(ABC):
 
     @classmethod
     async def parse_command(
-            cls, args: typing.Iterable[str], message: message.Message
+            cls, args: typing.List[str], message: message.Message
     ) -> BotResponse:
         """Given the list of arguments passed after the prefix, returns the corresponding Command.
 
